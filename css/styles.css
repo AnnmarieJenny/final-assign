@@ -1,0 +1,26 @@
+
+html, body, .master-container, #sidebar, #map-container {
+  height: 100%;
+  margin: 0;
+}
+
+.master-container{
+  display: flex;
+
+}
+
+#sidebar {
+  background: grey;
+  width: 320px;
+}
+
+#map-container {
+  flex-grow: 1;
+}
+
+.title {
+  font-size: 50px;
+  font-family: sans-serif;
+  color: white;
+  margin-left: 20px;
+}
