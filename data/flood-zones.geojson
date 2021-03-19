@@ -3,7 +3,7 @@
   "features": [
     {
       "type": "Feature",
-      "properties": {},
+      "properties": {"Name": "Flood Zones"},
       "geometry": {
         "type": "Polygon",
         "coordinates": [

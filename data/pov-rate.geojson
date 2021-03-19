@@ -3,7 +3,7 @@
   "features": [
     {
       "type": "Feature",
-      "properties": {},
+      "properties": {"Name": "Poverty Rate (2016)"},
       "geometry": {
         "type": "Polygon",
         "coordinates": [

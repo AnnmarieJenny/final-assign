@@ -3,7 +3,7 @@
   "features": [
     {
       "type": "Feature",
-      "properties": {},
+      "properties": {"Name": "Liquefaction Zone"},
       "geometry": {
         "type": "Polygon",
         "coordinates": [
