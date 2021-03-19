@@ -8,8 +8,8 @@ var map = new mapboxgl.Map ({
 });
 
 //add in map zoom in and zoom out feature
-//var nav = new mapboxgl.NavigationControl();
-//map.addControl(nav, 'top-left');
+var nav = new mapboxgl.NavigationControl();
+  map.addControl(nav, 'top-left');
 
 map.on('load', function(){
     // add source and layer for long beach outline
