@@ -11,7 +11,7 @@ html, body, .master-container, #sidebar, #map-container {
 
 #sidebar {
   background: grey;
-  width: 320px;
+  width: 335px;
 }
 
 #map-container {
@@ -19,18 +19,39 @@ html, body, .master-container, #sidebar, #map-container {
 }
 
 .title {
-  font-size: 50px;
+  font-size: 40px;
   font-family: sans-serif;
   color: white;
-  margin-left: 20px;
+  margin-left: 15px;
 }
 
+.city-title {
+  font-size: 28px;
+  font-family: sans-serif;
+  font-style: italic;
+  color: white;
+  margin-left: 15px;
+}
+
+.subtitle {
+  font-size: 20px;
+  font-family: sans-serif;
+  color: white;
+  margin-left: 30px;
+}
+
+.text {
+  font-size: 15px;
+  font-family: sans-serif;
+  color: white;
+  margin-left: 30px;
+}
 
 #menu {
     background: #fff;
     position: absolute;
     z-index: 1;
-    top: 40px;
+    top: 70px;
     right: 30px;
     border-radius: 3px;
     width: 150px;
@@ -60,10 +81,10 @@ html, body, .master-container, #sidebar, #map-container {
 }
 
 #menu a.active {
-    background-color: #088;
+    background-color: #82b874;
     color: #ffffff;
 }
 
-#legend a.active:hover {
-    background: #00656e;
+#menu a.active:hover {
+    background: #6fa360;
 }
