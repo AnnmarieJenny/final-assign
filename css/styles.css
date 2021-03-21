@@ -59,6 +59,7 @@ html, body, .master-container, #sidebar, #map-container {
     font-family: 'Open Sans', sans-serif;
 }
 
+/*
 #menu a {
     font-size: 13px;
     color: #404040;
@@ -88,3 +89,4 @@ html, body, .master-container, #sidebar, #map-container {
 #menu a.active:hover {
     background: #6fa360;
 }
+*/

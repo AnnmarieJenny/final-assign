@@ -1,5 +1,7 @@
 mapboxgl.accessToken = 'pk.eyJ1IjoiYW5ubWFyaWVqZW5ueSIsImEiOiJja2w4NGUycWMydHVnMnBwbGtwYTd2bDdsIn0.nw5eYr-3jZj6cS7lDUIFMg';
 
+
+
 var map = new mapboxgl.Map ({
     container: 'map-container',
     style: 'mapbox://styles/mapbox/light-v10',
@@ -11,7 +13,7 @@ var map = new mapboxgl.Map ({
 var nav = new mapboxgl.NavigationControl();
   map.addControl(nav, 'top-left');
 
-map.on('load', function(){
+map.on('load', function(){ // or style-load ??
     // add source and layer for long beach outline
     // primary layer (1 of 3)
     map.addSource('long-beach', {
@@ -22,7 +24,9 @@ map.on('load', function(){
         'id': 'Long Beach City',
         'type': 'fill',
         'source': 'long-beach',
-        'layout': {},
+        'layout': {
+          'visibility':'none'
+        },
         'paint': {
           'fill-color': 'yellow',
           'fill-opacity': 0.5
@@ -38,7 +42,9 @@ map.on('load', function(){
         'id': 'Land Uses',
         'type': 'fill',
         'source': 'zoning',
-        'layout': {},
+        'layout': {
+          'visibility':'none'
+        },
         'paint': {
           'fill-color': 'pink',
           'fill-opacity': 0.5
@@ -54,7 +60,9 @@ map.on('load', function(){
         'id': 'Poverty Rate (2016)',
         'type': 'fill',
         'source': 'pov-rate',
-        'layout': {},
+        'layout': {
+          'visibility':'none'
+        },
         'paint': {
           'fill-color': 'white',
           'fill-opacity': 0.5
@@ -70,7 +78,9 @@ map.on('load', function(){
         'id': 'Flood Zones',
         'type': 'fill',
         'source': 'flood-zones',
-        'layout': {},
+        'layout': {
+          'visibility':'none'
+        },
         'paint': {
           'fill-color': 'lightblue',
           'fill-opacity': 0.5
@@ -86,7 +96,9 @@ map.on('load', function(){
         'id': 'Liquefaction Zone',
         'type': 'fill',
         'source': 'eq-impact',
-        'layout': {},
+        'layout': {
+          'visibility':'none'
+        },
         'paint': {
           'fill-color': 'lightgreen',
           'fill-opacity': 0.5
@@ -114,6 +126,7 @@ map.on('load', function(){
     legend.appendChild(item);
   }*/
 
+/*
   //enumerate ids of the layers
   var toggleableLayerIds = [
     'Long Beach City', 'Land Uses', 'Poverty Rate (2016)', 'Flood Zones', 'Liquefaction Zone'];
@@ -147,7 +160,7 @@ map.on('load', function(){
 
   var layers = document.getElementById('menu');
   layers.appendChild(link);
-  }
+}*/
 
   // create pop up with multiple properties listed below
   map.on('click', function (e) {
