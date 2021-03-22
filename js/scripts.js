@@ -7,6 +7,62 @@ var map = new mapboxgl.Map ({
     zoom: 10.5
 });
 
+// a helper function for looking up colors and descriptions for NYC land use codes
+var LandUseLookup = (code) => {
+  switch (code) {
+    case 1:
+      return {
+        color: '#f4f455',
+        description: 'Residential',
+      };
+    case 2:
+      return {
+        color: '#ea6661',
+        description: 'Commercial',
+      };
+    case 3:
+      return {
+        color: '#d36ff4',
+        description: 'Industrial',
+      };
+    case 4:
+      return {
+        color: '#5CA2D1',
+        description: 'Institutional',
+      };
+    case 5:
+      return {
+        color: '#8ece7c',
+        description: 'Park',
+      };
+    case 6:
+      return {
+        color: '#dac0e8',
+        description: 'Public Right-of-Way',
+      };
+    case 7:
+      return {
+        color: '#f79f79',
+        description: 'Planned Development',
+      };
+    case 8:
+      return {
+        color: '#EE85B5',
+        description: 'Specific Plan',
+      };
+    case 9:
+      return {
+        color: '#f7cabf',
+        description: 'Mixed Use',
+      };
+    case 10:
+      return {
+        color: '#5f5f60',
+        description: 'Not Zoned',
+      };
+  }
+};
+
 //add in map zoom in and zoom out feature
 var nav = new mapboxgl.NavigationControl();
   map.addControl(nav, 'top-left');
@@ -34,18 +90,66 @@ map.on('load', function(){ // or style-load ??
     // primary layer 2 of 3
     map.addSource('land-uses', {
         type: 'geojson',
-        data: 'data/zoning.geojson'
+        data: 'data/land-uses.geojson'
     });
+
+    // create vars to prep for variety of colors
     map.addLayer({
         'id': 'land-uses',
         'type': 'fill',
         'source': 'land-uses',
         'layout': {},
         'paint': {
-          'fill-color': 'pink',
-          'fill-opacity': 0.5
-        }
-    });
+          'fill-color': {
+        type: 'categorical',
+        property: 'GENERAL_CL',
+        stops: [
+          [
+            100,
+            LandUseLookup(1).color,
+          ],
+          [
+            200,
+            LandUseLookup(2).color,
+          ],
+          [
+            300,
+            LandUseLookup(3).color,
+          ],
+          [
+            400,
+            LandUseLookup(4).color,
+          ],
+          [
+            500,
+            LandUseLookup(5).color,
+          ],
+          [
+            600,
+            LandUseLookup(6).color,
+          ],
+          [
+            700,
+            LandUseLookup(7).color,
+          ],
+          [
+            800,
+            LandUseLookup(8).color,
+          ],
+          [
+            1100,
+            LandUseLookup(9).color,
+          ],
+          [
+            999,
+            LandUseLookup(10).color,
+          ],
+        ]
+      },
+      'fill-outline-color': '#ccc',
+      'fill-opacity':0.7
+    }
+  });
     // add source and layer for poverty rate
     // primary layer (3 of 3)
     map.addSource('pov-rate', {
