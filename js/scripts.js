@@ -1,7 +1,5 @@
 mapboxgl.accessToken = 'pk.eyJ1IjoiYW5ubWFyaWVqZW5ueSIsImEiOiJja2w4NGUycWMydHVnMnBwbGtwYTd2bDdsIn0.nw5eYr-3jZj6cS7lDUIFMg';
 
-
-
 var map = new mapboxgl.Map ({
     container: 'map-container',
     style: 'mapbox://styles/mapbox/light-v10',
@@ -21,7 +19,7 @@ map.on('load', function(){ // or style-load ??
         data: 'data/long-beach.geojson'
     });
     map.addLayer({
-        'id': 'Long Beach City',
+        'id': 'long-beach',
         'type': 'fill',
         'source': 'long-beach',
         'layout': {
@@ -34,17 +32,15 @@ map.on('load', function(){ // or style-load ??
     });
     // add source and layer for land use zoning
     // primary layer 2 of 3
-    map.addSource('zoning', {
+    map.addSource('land-uses', {
         type: 'geojson',
         data: 'data/zoning.geojson'
     });
     map.addLayer({
-        'id': 'Land Uses',
+        'id': 'land-uses',
         'type': 'fill',
-        'source': 'zoning',
-        'layout': {
-          'visibility':'none'
-        },
+        'source': 'land-uses',
+        'layout': {},
         'paint': {
           'fill-color': 'pink',
           'fill-opacity': 0.5
@@ -57,7 +53,7 @@ map.on('load', function(){ // or style-load ??
         data: 'data/pov-rate.geojson'
     });
     map.addLayer({
-        'id': 'Poverty Rate (2016)',
+        'id': 'pov-rate',
         'type': 'fill',
         'source': 'pov-rate',
         'layout': {
@@ -75,12 +71,10 @@ map.on('load', function(){ // or style-load ??
         data: 'data/flood-zones.geojson'
     });
     map.addLayer({
-        'id': 'Flood Zones',
+        'id': 'flood-zones',
         'type': 'fill',
         'source': 'flood-zones',
-        'layout': {
-          'visibility':'none'
-        },
+        'layout': {},
         'paint': {
           'fill-color': 'lightblue',
           'fill-opacity': 0.5
@@ -88,14 +82,14 @@ map.on('load', function(){ // or style-load ??
     });
     // add source and layer for liquefaction zones (caused by EQs)
     // supplemental layer (2 of 2)
-    map.addSource('eq-impact', {
+    map.addSource('liquefaction-zone', {
         type: 'geojson',
         data: 'data/eq-impact.geojson'
     });
     map.addLayer({
-        'id': 'Liquefaction Zone',
+        'id': 'liquefaction-zone',
         'type': 'fill',
-        'source': 'eq-impact',
+        'source': 'liquefaction-zone',
         'layout': {
           'visibility':'none'
         },
@@ -105,6 +99,14 @@ map.on('load', function(){ // or style-load ??
         }
     });
 
+    $('.layer-toggle').change(function() {
+      const layerId = $(this).attr('id')
+      if ($(this).is(':checked')) {
+        map.setLayoutProperty(layerId, 'visibility', 'visible');
+      } else {
+        map.setLayoutProperty(layerId, 'visibility', 'none');
+      }
+    });
 
 /* play around with legend after figuring out how to toggle
   // add in ranges and colors
@@ -160,7 +162,7 @@ map.on('load', function(){ // or style-load ??
 
   var layers = document.getElementById('menu');
   layers.appendChild(link);
-}*/
+}
 
   // create pop up with multiple properties listed below
   map.on('click', function (e) {
@@ -175,7 +177,7 @@ map.on('load', function(){ // or style-load ??
       .setLngLat(e.lngLat)
       .setHTML(myHTML)
       .addTo(map);
-    });
+    });*/
 
   // turn pointer on when it hovers over geos/vacant lots
   map.on('mouseenter', 'Long Beach City', (e) => {

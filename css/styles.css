@@ -59,7 +59,6 @@ html, body, .master-container, #sidebar, #map-container {
     font-family: 'Open Sans', sans-serif;
 }
 
-/*
 #menu a {
     font-size: 13px;
     color: #404040;
@@ -72,7 +71,7 @@ html, body, .master-container, #sidebar, #map-container {
     text-align: center;
 }
 
-#menu a:last-child {
+/*#menu a:last-child {
     border: none;
 }
 
@@ -88,5 +87,23 @@ html, body, .master-container, #sidebar, #map-container {
 
 #menu a.active:hover {
     background: #6fa360;
+}*/
+
+#menu {
+  background: #fff;
+  position: absolute;
+  z-index: 1;
+  top: 70px;
+  right: 30px;
+  border-radius: 3px;
+  width: 150px;
+  border: 1px solid rgba(0, 0, 0, 0.4);
+  font-family: 'Open Sans', sans-serif;
 }
-*/
+/* show legends if nearest checkbox is checked */
+input[type=checkbox]:checked~.legend {
+  display: block;
+}
+.legend {
+  display: none;
+}
