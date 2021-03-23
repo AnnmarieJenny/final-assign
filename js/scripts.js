@@ -103,7 +103,7 @@ map.on('load', function(){ // or style-load ??
           'fill-color': {
         type: 'categorical',
         property: 'GENERAL_CL',
-        stops: [
+        stops: [ // if time permits try to consolidate since both this and the var above use numeric
           [
             100,
             LandUseLookup(1).color,
@@ -146,7 +146,7 @@ map.on('load', function(){ // or style-load ??
           ],
         ]
       },
-      'fill-outline-color': '#ccc',
+      'fill-outline-color': '#ccc', // can make wider, etc.
       'fill-opacity':0.7
     }
   });
@@ -266,15 +266,57 @@ map.on('load', function(){ // or style-load ??
 
   var layers = document.getElementById('menu');
   layers.appendChild(link);
+} */
+
+var popup = new mapboxgl.Popup({
+  closeButton: false,
+  closeOnClick: false
+})
+
+
+// create pop up with multiple properties listed below
+map.on('mousemove', function (e) {
+  console.log(e)
+  var features = map.queryRenderedFeatures(e.point, {
+    layers: ['land-uses']
+  });
+
+if (features.length > 0) {
+  // show the Popup
+  // populate the Popup and set its coordinates
+  // based on the feature
+
+  var hoveredFeature = features[0]// problem here?
+  var popupContent = `
+      <p><strong>Land Use:</strong>${LandUseLookup(hoveredFeature.properties.GENERAL_CL).description}</p>
+  `
+
+  popup.setLngLat(e.lngLat).setHTML(popupContent).addTo(map);
+} else{
+  // remove pop up if there are not queryRenderedFeatures
+  popup.remove();
 }
+
+console.log(features)
+})
+
+  // use function (VacantLots) from above to create a var that pulls from that data
+  /*var myHTML1 = `
+      <div><b>Land Use Type: </b>${LandUseLookup.description}</div>
+      `
+  new mapboxgl.Popup()
+    .setLngLat(e.lngLat)
+    .setHTML(myHTML1)
+    .addTo(map);
+  });*/
 
   // create pop up with multiple properties listed below
   map.on('click', function (e) {
     var features = map.queryRenderedFeatures(e.point, {
-      layers: ['Long Beach City', 'Land Uses', 'Poverty Rate (2016)', 'Flood Zones', 'Liquefaction Zone']
-    });
+      layers: ['long-beach','pov-rate', 'flood-zones', 'liquefaction-zone']
+    });})
     // use function (VacantLots) from above to create a var that pulls from that data
-    var myHTML = `
+    /*var myHTML = `
         <div><b>Name: </b>${features[0].properties.Name}</div>
         `
     new mapboxgl.Popup()
@@ -284,46 +326,45 @@ map.on('load', function(){ // or style-load ??
     });*/
 
   // turn pointer on when it hovers over geos/vacant lots
-  map.on('mouseenter', 'Long Beach City', (e) => {
+  map.on('mouseenter', 'long-beach', (e) => {
     map.getCanvas().style.cursor = 'pointer';
       })
   // turn pointer off when it hovers away from geos/vacant lots
-  map.on('mouseleave', 'Long Beach City', (e) => {
+  map.on('mouseleave', 'long-beach', (e) => {
     map.getCanvas().style.cursor = '';
   })
   // turn pointer on when it hovers over geos/vacant lots
-  map.on('mouseenter', 'Land Uses', (e) => {
+  map.on('mouseenter', 'land-uses', (e) => {
     map.getCanvas().style.cursor = 'pointer';
       })
   // turn pointer off when it hovers away from geos/vacant lots
-  map.on('mouseleave', 'Land Uses', (e) => {
+  map.on('mouseleave', 'land-uses', (e) => {
     map.getCanvas().style.cursor = '';
   })
 
   // turn pointer on when it hovers over geos/vacant lots
-  map.on('mouseenter', 'Poverty Rate (2016)', (e) => {
+  map.on('mouseenter', 'pov-rate', (e) => {
     map.getCanvas().style.cursor = 'pointer';
       })
   // turn pointer off when it hovers away from geos/vacant lots
-  map.on('mouseleave', 'Poverty Rate (2016)', (e) => {
+  map.on('mouseleave', 'pov-rate', (e) => {
     map.getCanvas().style.cursor = '';
   })
   // turn pointer on when it hovers over geos/vacant lots
-  map.on('mouseenter', 'Flood Zones', (e) => {
+  map.on('mouseenter', 'flood-zones', (e) => {
     map.getCanvas().style.cursor = 'pointer';
       })
   // turn pointer off when it hovers away from geos/vacant lots
-  map.on('mouseleave', 'Flood Zones', (e) => {
+  map.on('mouseleave', 'flood-zones', (e) => {
     map.getCanvas().style.cursor = '';
   })
 
   // turn pointer on when it hovers over geos/vacant lots
-  map.on('mouseenter', 'Liquefaction Zone', (e) => {
+  map.on('mouseenter', 'liquefaction-zone', (e) => {
     map.getCanvas().style.cursor = 'pointer';
       })
   // turn pointer off when it hovers away from geos/vacant lots
-  map.on('mouseleave', 'Liquefaction Zone', (e) => {
+  map.on('mouseleave', 'liquefaction-zone', (e) => {
     map.getCanvas().style.cursor = '';
   })
-
 })
