@@ -57,9 +57,50 @@ var LandUseLookup = (code) => {
       };
     case 10:
       return {
-        color: '#5f5f60',
+        color: '#f7f7f7',
         description: 'Not Zoned',
       };
+  }
+};
+
+// a helper function for looking up colors and descriptions for NYC land use codes
+var FloodZoneLookup = (code) => {
+  switch (code) {
+    case 1:
+      return {
+        color: '#0c2c84',
+        description: '1% Annual Chance of Flooding [Mandatory Flood Insurance Required]',
+      };
+    case 2:
+      return {
+        color: '#225ea8',
+        description: 'Base Flood Plain [Mandatory Flood Insurance Required]',
+      };
+    case 3:
+      return {
+        color: '#41b6c4',
+        description: '1% Annual Chance of Shallow Flooding',
+      };
+    case 4:
+      return {
+        color: '#1d91c0',
+        description: '1% Chance or Greater of Flooding & An Annual Hazard Associated with Wave Storms [Mandatory Flood Insurance Required]',
+      };
+    case 5:
+      return {
+        color: '#95dedb',
+        description: 'Moderate Flood Hazard; Area between limits of the 100-year and 500-year floods',
+      };
+    case 6:
+      return {
+        color: '#c5edeb',
+        description: '0.2% Annual Chance of Flooding',
+      };
+    case 7:
+      return {
+        color: '#ffffcc',
+        description: 'Other',
+        };
   }
 };
 
@@ -98,7 +139,8 @@ map.on('load', function(){ // or style-load ??
         'id': 'land-uses',
         'type': 'fill',
         'source': 'land-uses',
-        'layout': {},
+        'layout': {
+        },
         'paint': {
           'fill-color': {
         type: 'categorical',
@@ -147,14 +189,14 @@ map.on('load', function(){ // or style-load ??
         ]
       },
       'fill-outline-color': '#ccc', // can make wider, etc.
-      'fill-opacity':0.7
+      'fill-opacity':1
     }
   });
     // add source and layer for poverty rate
     // primary layer (3 of 3)
     map.addSource('pov-rate', {
         type: 'geojson',
-        data: 'data/pov-rate.geojson'
+        data: 'data/pov.geojson'
     });
     map.addLayer({
         'id': 'pov-rate',
@@ -164,40 +206,91 @@ map.on('load', function(){ // or style-load ??
           'visibility':'none'
         },
         'paint': {
-          'fill-color': 'white',
-          'fill-opacity': 0.5
+          'fill-color': [
+          'interpolate',
+          ['linear'],
+          ['get', 'ACS_POV2_1'],
+          0,
+          '#f2f0f7',
+          13,
+          '#cbc9e2',
+          26,
+          '#9e9ac8',
+          39,
+          '#756bb1',
+          52,
+          '#54278f'
+        ],
+          'fill-opacity': 1,
+          'fill-outline-color': '#cccccc', // can make wider, etc.
         }
-    });
+    })
     // add source and layer for flood zones
     // supplemental layer (1 of 2)
     map.addSource('flood-zones', {
         type: 'geojson',
-        data: 'data/flood-zones.geojson'
+        data: 'data/floods.geojson'
     });
     map.addLayer({
         'id': 'flood-zones',
         'type': 'fill',
         'source': 'flood-zones',
-        'layout': {},
+        'layout': {
+          'visibility':'none'
+        },
         'paint': {
-          'fill-color': 'lightblue',
-          'fill-opacity': 0.5
-        }
+          'fill-color': {
+          type: 'categorical',
+          property: 'ZONE_TYPE',
+          stops: [ // if time permits try to consolidate since both this and the var above use numeric
+            [
+              'A',
+              FloodZoneLookup(1).color,
+            ],
+            [
+              'AE',
+              FloodZoneLookup(2).color,
+            ],
+            [
+              'AH',
+              FloodZoneLookup(3).color,
+            ],
+            [
+              'VE',
+              FloodZoneLookup(4).color,
+            ],
+            [
+              'X',
+              FloodZoneLookup(5).color,
+            ],
+            [
+              'X 0.2',
+              FloodZoneLookup(6).color,
+            ],
+            [
+              '',
+              FloodZoneLookup(7).color,
+            ],
+          ]
+        },
+        'fill-outline-color': '#ccc', // can make wider, etc.
+        'fill-opacity':0.7
+      }
     });
     // add source and layer for liquefaction zones (caused by EQs)
     // supplemental layer (2 of 2)
     map.addSource('liquefaction-zone', {
         type: 'geojson',
-        data: 'data/eq-impact.geojson'
+        data: 'data/liquefaction.geojson'
     });
     map.addLayer({
         'id': 'liquefaction-zone',
         'type': 'fill',
         'source': 'liquefaction-zone',
         'layout': {
-          'visibility':'none'
         },
         'paint': {
+          'fill-outline-color': '#ccc', // can make wider, etc.
           'fill-color': 'lightgreen',
           'fill-opacity': 0.5
         }
@@ -212,47 +305,22 @@ map.on('load', function(){ // or style-load ??
       }
     });
 
-/* play around with legend after figuring out how to toggle
-  // add in ranges and colors
-  var layers = ['0-10', '10-20', '20-50', '50-100', '100-200', '200-500', '500-1000', '1000+'];
-  var colors = ['#FFEDA0', '#FED976', '#FEB24C', '#FD8D3C', '#FC4E2A', '#E31A1C', '#BD0026', '#800026'];
-  // add in a legend
-  for (i = 0; i < layers.length; i++) {
-    var layers = layers[i];
-    var color = colors[i];
-    var item = document.createElement('div');
-    var key = document.createElement('span');
-    key.className = 'legend-key';
-    key.style.backgroundColor = color;
-
-    var value = document.createElement('span');
-    value.innerHTML = layer;
-    item.appendChild(key);
-    item.appendChild(value);
-    legend.appendChild(item);
-  }*/
-
 /*
   //enumerate ids of the layers
   var toggleableLayerIds = [
     'Long Beach City', 'Land Uses', 'Poverty Rate (2016)', 'Flood Zones', 'Liquefaction Zone'];
-
   // set up the corresponding toggle button for each layer
   for (var i = 0; i < toggleableLayerIds.length; i++) {
   var id = toggleableLayerIds[i];
-
   var link = document.createElement('a');
     link.href = '#';
     link.className = 'active';
     link.textContent = id;
-
   link.onclick = function (e) {
   var clickedLayer = this.textContent;
     e.preventDefault();
     e.stopPropagation();
-
   var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
-
     // toggle layer visibility by changing the layout object's visibility property
     if (visibility === 'visible') {
         map.setLayoutProperty(clickedLayer, 'visibility', 'none');
@@ -263,12 +331,11 @@ map.on('load', function(){ // or style-load ??
         map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
     }
     };
-
   var layers = document.getElementById('menu');
   layers.appendChild(link);
 } */
 
-var popup = new mapboxgl.Popup({
+/*var popup = new mapboxgl.Popup({
   closeButton: false,
   closeOnClick: false
 })
@@ -315,15 +382,15 @@ console.log(features)
     var features = map.queryRenderedFeatures(e.point, {
       layers: ['long-beach','pov-rate', 'flood-zones', 'liquefaction-zone']
     });})
-    // use function (VacantLots) from above to create a var that pulls from that data
-    /*var myHTML = `
+
+    var myHTML = `
         <div><b>Name: </b>${features[0].properties.Name}</div>
         `
     new mapboxgl.Popup()
       .setLngLat(e.lngLat)
       .setHTML(myHTML)
       .addTo(map);
-    });*/
+    });
 
   // turn pointer on when it hovers over geos/vacant lots
   map.on('mouseenter', 'long-beach', (e) => {
@@ -367,4 +434,3 @@ console.log(features)
   map.on('mouseleave', 'liquefaction-zone', (e) => {
     map.getCanvas().style.cursor = '';
   })
-})
