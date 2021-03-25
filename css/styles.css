@@ -98,7 +98,7 @@ html, body, .master-container, #sidebar, #map-container {
   top: 70px;
   right: 30px;
   border-radius: 10px;
-  width: 250px;
+  width: 265px;
   border: 3px solid #465362;
   border-style: dotted;
   font-family: sans-serif;
@@ -111,6 +111,18 @@ html, body, .master-container, #sidebar, #map-container {
 input[type=checkbox]:checked~.legend {
   display: block;
 }
+
+.nav {
+  z-index: auto; // how to get this to sit below the legend when the map is compressed
+}
+
+.legend-labels {
+  background-color: #a6b2bf;
+  color: #011936;
+  opacity: 0.95;
+  font-family: sans-serif;
+}
+
 .legend {
   display: none;
 }
@@ -138,7 +150,6 @@ input[type=checkbox]:checked~.legend {
   margin: 0;
   margin-bottom: 5px;
   padding: 0;
-  float: left;
   list-style: none;
   font-size: 17px;
   }

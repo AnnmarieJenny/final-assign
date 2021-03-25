@@ -124,6 +124,7 @@ map.on('load', function(){
         'type': 'fill',
         'source': 'land-uses',
         'layout': {
+          'visibility':'visible'
         },
         'paint': {
           'fill-color': {
@@ -273,6 +274,7 @@ map.on('load', function(){
         'type': 'fill',
         'source': 'liquefaction-zone',
         'layout': {
+          'visibility':'visible'
         },
         'paint': {
           'fill-outline-color': '#ccc', // can make wider, etc.
@@ -296,60 +298,28 @@ var popup = new mapboxgl.Popup({
   closeOnClick: false
 })
 
-/*var landuseDescription = map.queryRenderedFeatures(e.point, {
-  layers: ['land-uses'],
-  [
-    100,
-    LandUseLookup(1).description,
-  ],
-  [
-    200,
-    LandUseLookup(2).description,
-  ],
-  [
-    300,
-    LandUseLookup(3).description,
-  ],
-  [
-    400,
-    LandUseLookup(4).description,
-  ],
-  [
-    500,
-    LandUseLookup(5).description,
-  ],
-  [
-    600,
-    LandUseLookup(6).description,
-  ],
-  [
-    700,
-    LandUseLookup(7).description,
-  ],
-  [
-    800,
-    LandUseLookup(8).description,
-  ],
-  [
-    1100,
-    LandUseLookup(9).description,
-  ],
-  [
-    999,
-    LandUseLookup(10).description,
-  ],
-]});*/
 /*
 // Popup for LandUse and PovRate
 // create pop up with multiple properties listed below
 map.on('click', function (e) {
-  // add logic to check whether layers are visible or not
-  // if not, push into...
-  // check each layer's visibility
+
+// check each layer's visibility
+var visibleLayers = [];
+
+  if (map.setLayoutProperty('land-use', 'visibility', 'visible')) {
+      visibleLayers.push('land-use')
+  }
+  if (map.setLayoutProperty('pov-rate', 'visibility', 'visible')) {
+      visibleLayers.push('pov-rate')
+  }
+  if (map.setLayoutProperty('flood-zones', 'visibility', 'visible')) {
+      visibleLayers.push('flood-zones')
+  }
+  // visibleLayers --> ['land-use', 'pov-rate', 'flood-zones']
 
 // add var visibleLayers
   var features = map.queryRenderedFeatures(e.point, {
-    layers: ['land-uses', 'pov-rate'], // visibleLayers here
+    layers: ['land-uses', 'pov-rate', 'flood-zones'], // visibleLayers here
   });
 console.log(features)
 
@@ -444,7 +414,7 @@ if (features.length > 0) {
 
 // Popup for Flood Zones
 // create pop up with multiple properties listed below
-map.on('click', function (e) {
+/*map.on('click', function (e) {
   var features = map.queryRenderedFeatures(e.point, {
     layers: ['flood-zones'],
     });
@@ -465,8 +435,7 @@ map.on('click', function (e) {
   // remove pop up if there are not queryRenderedFeatures
     popup.remove();
      }
-   })
-
+   })*/
 
   // use function (VacantLots) from above to create a var that pulls from that data
   /*var myHTML1 = `
