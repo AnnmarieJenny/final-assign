@@ -293,12 +293,11 @@ map.on('load', function(){
     });
 
 
-
+// show the Popup
 var popup = new mapboxgl.Popup({
   closeOnClick: false
 })
 
-/*
 // Popup for LandUse and PovRate
 // create pop up with multiple properties listed below
 map.on('click', function (e) {
@@ -319,42 +318,48 @@ var visibleLayers = [];
 
 // add var visibleLayers
   var features = map.queryRenderedFeatures(e.point, {
-    layers: ['land-uses', 'pov-rate', 'flood-zones'], // visibleLayers here
+    layers: [visibleLayers], // visibleLayers here
   });
 console.log(features)
 
 if (features.length > 0) {
-  // show the Popup
-  // populate the Popup and set its coordinates
-  // based on the feature
+  // populate the Popup based on the layer / feature
 
-// can set up empty one before (to debug)
-var popContent
-// find layer where it comes from
-  if(feature.properties.Layer = ...) {
+var clickedFeature = features[0]// problem here? possible there are overlapping features?
+var landuseDescription = clickedFeature.properties.GENERAL_CL
+var povRate = clickedFeature.properties.ACS_POV2_1
+var floodzoneDescription = clickedFeature.properties.ZONE_TYPE
 
+var popContent = [];
+  // can set up empty one before
+  if(feature.properties.Layer = '') {
+    var popupContent = `
+    <p>${''}</p>
+    `
   }
-
-  var clickedFeature = features[0]// problem here? possible there are overlapping features?
-  var landuseDescription = clickedFeature.properties.GENERAL_CL
-  var povRate = clickedFeature.properties.ACS_POV2_1
-  // LandUseLookup(hoveredFeature.properties.GENERAL_CL).description
-  var popupContent = `
-      <div>
-        <p><b>Land Use: </b>${landuseDescription}</p>
-        <p><b>Poverty Rate: </b>${povRate}%</p>
-      </div>
-  `
-// The code needs to be given indication elsewhere besides the paint area
-// of what the case 1 - 10 translate to in terms of GENERAL_CL Land Use codes
-
+  // find layer where it comes from
+  if(feature.properties.Layer = 'land-use') {
+    var popupContent = `
+    <p><b>Land Use: </b>${landuseDescription}</p>
+    `
+  }
+  if(feature.properties.Layer = 'pov-rate') {
+    var popupContent = `
+    <p><b>Poverty Rate: </b>${povRate}</p>
+    `
+  }
+  if(feature.properties.Layer = 'flood-zones') {
+      var popupContent = `
+      <p><b>Flood Zone Type: </b>${floodzoneDescription}</p>
+      `
+  }
   popup.setLngLat(e.lngLat).setHTML(popupContent).addTo(map);
 } else{
   // remove pop up if there are not queryRenderedFeatures
   popup.remove();
 }
 
-})*/
+})
 
 // Popup for LandUse
 // create pop up with multiple properties listed below
