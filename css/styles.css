@@ -103,6 +103,9 @@ html, body, .master-container, #sidebar, #map-container {
   border-style: dotted;
   font-family: sans-serif;
   margin-top: 5px;
+  padding-left: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
 /* show legends if nearest checkbox is checked */
 input[type=checkbox]:checked~.legend {

@@ -10,52 +10,52 @@ var map = new mapboxgl.Map ({
 // a helper function for looking up colors and descriptions for NYC land use codes
 var LandUseLookup = (code) => {
   switch (code) {
-    case 1:
+    case 100:
       return {
         color: '#f4f455',
         description: 'Residential',
       };
-    case 2:
+    case 200:
       return {
         color: '#ea6661',
         description: 'Commercial',
       };
-    case 3:
+    case 300:
       return {
         color: '#d36ff4',
         description: 'Industrial',
       };
-    case 4:
+    case 400:
       return {
         color: '#5CA2D1',
         description: 'Institutional',
       };
-    case 5:
+    case 500:
       return {
         color: '#8ece7c',
         description: 'Park',
       };
-    case 6:
+    case 600:
       return {
         color: '#dac0e8',
         description: 'Public Right-of-Way',
       };
-    case 7:
+    case 700:
       return {
         color: '#f79f79',
         description: 'Planned Development',
       };
-    case 8:
+    case 800:
       return {
         color: '#EE85B5',
         description: 'Specific Plan',
       };
-    case 9:
+    case 1100:
       return {
         color: '#f7cabf',
         description: 'Mixed Use',
       };
-    case 10:
+    case 999:
       return {
         color: '#f7f7f7',
         description: 'Not Zoned',
@@ -68,37 +68,37 @@ var LandUseLookup = (code) => {
 // a helper function for looking up colors and descriptions for NYC land use codes
 var FloodZoneLookup = (code) => {
   switch (code) {
-    case 1:
+    case 'A':
       return {
         color: '#0c2c84',
         description: '1% Annual Chance of Flooding [Mandatory Flood Insurance Required]',
       };
-    case 2:
+    case 'AE':
       return {
         color: '#225ea8',
         description: 'Base Flood Plain [Mandatory Flood Insurance Required]',
       };
-    case 3:
+    case 'AH':
       return {
         color: '#41b6c4',
         description: '1% Annual Chance of Shallow Flooding',
       };
-    case 4:
+    case 'VE':
       return {
         color: '#1d91c0',
         description: '1% Chance or Greater of Flooding & An Annual Hazard Associated with Wave Storms [Mandatory Flood Insurance Required]',
       };
-    case 5:
+    case 'X':
       return {
         color: '#95dedb',
         description: 'Moderate Flood Hazard; Area between limits of the 100-year and 500-year floods',
       };
-    case 6:
+    case 'X 0.2':
       return {
         color: '#c5edeb',
         description: '0.2% Annual Chance of Flooding',
       };
-    case 7:
+    case '':
       return {
         color: '#ffffcc',
         description: 'Other',
@@ -132,43 +132,43 @@ map.on('load', function(){
         stops: [ // if time permits try to consolidate since both this and the var above use numeric
           [
             100,
-            LandUseLookup(1).color,
+            LandUseLookup(100).color,
           ],
           [
             200,
-            LandUseLookup(2).color,
+            LandUseLookup(200).color,
           ],
           [
             300,
-            LandUseLookup(3).color,
+            LandUseLookup(300).color,
           ],
           [
             400,
-            LandUseLookup(4).color,
+            LandUseLookup(400).color,
           ],
           [
             500,
-            LandUseLookup(5).color,
+            LandUseLookup(500).color,
           ],
           [
             600,
-            LandUseLookup(6).color,
+            LandUseLookup(600).color,
           ],
           [
             700,
-            LandUseLookup(7).color,
+            LandUseLookup(700).color,
           ],
           [
             800,
-            LandUseLookup(8).color,
+            LandUseLookup(800).color,
           ],
           [
             1100,
-            LandUseLookup(9).color,
+            LandUseLookup(1100).color,
           ],
           [
             999,
-            LandUseLookup(10).color,
+            LandUseLookup(999).color,
           ],
         ]
       },
@@ -229,32 +229,32 @@ map.on('load', function(){
           stops: [ // if time permits try to consolidate since both this and the var above use numeric
             [
               'A',
-              FloodZoneLookup(1).color,
+              FloodZoneLookup('A').color,
 
             ],
             [
               'AE',
-              FloodZoneLookup(2).color,
+              FloodZoneLookup('AE').color,
             ],
             [
               'AH',
-              FloodZoneLookup(3).color,
+              FloodZoneLookup('AH').color,
             ],
             [
               'VE',
-              FloodZoneLookup(4).color,
+              FloodZoneLookup('VE').color,
             ],
             [
               'X',
-              FloodZoneLookup(5).color,
+              FloodZoneLookup('X').color,
             ],
             [
               'X 0.2',
-              FloodZoneLookup(6).color,
+              FloodZoneLookup('X 0.2').color,
             ],
             [
               '',
-              FloodZoneLookup(7).color,
+              FloodZoneLookup('').color,
             ],
           ]
         },
@@ -339,12 +339,17 @@ var popup = new mapboxgl.Popup({
     LandUseLookup(10).description,
   ],
 ]});*/
-
+/*
 // Popup for LandUse and PovRate
 // create pop up with multiple properties listed below
-/*map.on('click', function (e) {
+map.on('click', function (e) {
+  // add logic to check whether layers are visible or not
+  // if not, push into...
+  // check each layer's visibility
+
+// add var visibleLayers
   var features = map.queryRenderedFeatures(e.point, {
-    layers: ['land-uses', 'pov-rate'],
+    layers: ['land-uses', 'pov-rate'], // visibleLayers here
   });
 console.log(features)
 
@@ -352,6 +357,13 @@ if (features.length > 0) {
   // show the Popup
   // populate the Popup and set its coordinates
   // based on the feature
+
+// can set up empty one before (to debug)
+var popContent
+// find layer where it comes from
+  if(feature.properties.Layer = ...) {
+
+  }
 
   var clickedFeature = features[0]// problem here? possible there are overlapping features?
   var landuseDescription = clickedFeature.properties.GENERAL_CL
@@ -388,8 +400,7 @@ if (features.length > 0) {
   // based on the feature
 
   var clickedFeature = features[0]// problem here? possible there are overlapping features?
-  var landuseDescription = clickedFeature.properties.GENERAL_CL
-  // LandUseLookup(hoveredFeature.properties.GENERAL_CL).description
+  var landuseDescription = LandUseLookup(clickedFeature.properties.GENERAL_CL).description
   var landusePopup = `
       <div>
         <p><b>Land Use: </b>${landuseDescription}</p>
@@ -408,7 +419,7 @@ if (features.length > 0) {
 
 // Popup for Pov Rate (2016)
 // create pop up with multiple properties listed below
-map.on('click', function (e) {
+/*map.on('click', function (e) {
   var features = map.queryRenderedFeatures(e.point, {
     layers: ['pov-rate'],
   });
@@ -429,11 +440,11 @@ if (features.length > 0) {
   // remove pop up if there are not queryRenderedFeatures
   popup.remove();
     }
-  })
+  })*/
 
 // Popup for Flood Zones
 // create pop up with multiple properties listed below
-/*map.on('click', function (e) {
+map.on('click', function (e) {
   var features = map.queryRenderedFeatures(e.point, {
     layers: ['flood-zones'],
     });
@@ -444,18 +455,17 @@ if (features.length > 0) {
   // populate the Popup and set its coordinates
   // based on the feature
   var clickedFeature = features[0]
+  var floodzoneDescription = FloodZoneLookup(clickedFeature.properties.ZONE_TYPE).description
   var floodzonePopup = `
     <div>
-      <b>Flood Zone: </b>${clickedFeature.properties.ZONE_TYPE}
+      <b>Flood Zone: </b>${floodzoneDescription}
    </div>`
    popup.setLngLat(e.lngLat).setHTML(floodzonePopup).addTo(map);
       } else{
   // remove pop up if there are not queryRenderedFeatures
     popup.remove();
      }
-   })*/
-
-
+   })
 
 
   // use function (VacantLots) from above to create a var that pulls from that data
