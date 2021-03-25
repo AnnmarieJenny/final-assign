@@ -110,27 +110,9 @@ var FloodZoneLookup = (code) => {
 var nav = new mapboxgl.NavigationControl();
   map.addControl(nav, 'top-left');
 
-map.on('load', function(){ // or style-load ??
-    // add source and layer for long beach outline
-    // primary layer (1 of 3)
-    map.addSource('long-beach', {
-        type: 'geojson',
-        data: 'data/long-beach.geojson'
-    });
-    map.addLayer({
-        'id': 'long-beach',
-        'type': 'fill',
-        'source': 'long-beach',
-        'layout': {
-          'visibility':'none'
-        },
-        'paint': {
-          'fill-color': 'yellow',
-          'fill-opacity': 0.5
-        }
-    });
+map.on('load', function(){
     // add source and layer for land use zoning
-    // primary layer 2 of 3
+    // primary layer 1 of 2
     map.addSource('land-uses', {
         type: 'geojson',
         data: 'data/land-uses.geojson'
@@ -195,7 +177,7 @@ map.on('load', function(){ // or style-load ??
     }
   });
     // add source and layer for poverty rate
-    // primary layer (3 of 3)
+    // primary layer (2 of 2)
     map.addSource('pov-rate', {
         type: 'geojson',
         data: 'data/pov.geojson'
