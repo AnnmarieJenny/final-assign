@@ -314,7 +314,7 @@ var popup = new mapboxgl.Popup({
   closeOnClick: false
 })
 
-var landuseDescription = map.queryRenderedFeatures(e.point, {
+/*var landuseDescription = map.queryRenderedFeatures(e.point, {
   layers: ['land-uses'],
   [
     100,
@@ -356,8 +356,9 @@ var landuseDescription = map.queryRenderedFeatures(e.point, {
     999,
     LandUseLookup(10).description,
   ],
-    ]});
+]});*/
 
+// Popup for LandUse
 // create pop up with multiple properties listed below
 map.on('mousemove', function (e) {
   var features = map.queryRenderedFeatures(e.point, {
@@ -370,10 +371,9 @@ if (features.length > 0) {
   // populate the Popup and set its coordinates
   // based on the feature
 
-
   var hoveredFeature = features[0]// problem here? possible there are overlapping features?
-  /*var landuseDescription = LandUseLookup(hoveredFeature.properties.GENERAL_CL).description*/
-
+  var landuseDescription = hoveredFeature.properties.GENERAL_CL
+  // LandUseLookup(hoveredFeature.properties.GENERAL_CL).description
   var popupContent = `
       <div>
         ${landuseDescription}
@@ -389,6 +389,58 @@ if (features.length > 0) {
 }
 
 })
+
+// Popup for Pov Rate (2016)
+// create pop up with multiple properties listed below
+map.on('mousemove', function (e) {
+  var features = map.queryRenderedFeatures(e.point, {
+    layers: ['pov-rate'],
+  });
+console.log(features)
+
+if (features.length > 0) {
+  // show the Popup
+  // populate the Popup and set its coordinates
+  // based on the feature
+
+  var hoveredFeature = features[0]
+  var popupContent = `
+      <div>
+        <b>Poverty Rate: </b>${hoveredFeature.properties.ACS_POV2_1}%
+      </div>`
+  popup.setLngLat(e.lngLat).setHTML(popupContent).addTo(map);
+    } else{
+  // remove pop up if there are not queryRenderedFeatures
+  popup.remove();
+    }
+    })
+
+// Popup for Flood Zones
+// create pop up with multiple properties listed below
+map.on('mousemove', function (e) {
+  var features = map.queryRenderedFeatures(e.point, {
+    layers: ['flood-zones'],
+    });
+  console.log(features)
+
+  if (features.length > 0) {
+  // show the Popup
+  // populate the Popup and set its coordinates
+  // based on the feature
+  var hoveredFeature = features[0]
+  var popupContent = `
+    <div>
+      <b>Poverty Rate: </b>${hoveredFeature.properties.ACS_POV2_1}%
+   </div>`
+   popup.setLngLat(e.lngLat).setHTML(popupContent).addTo(map);
+      } else{
+  // remove pop up if there are not queryRenderedFeatures
+    popup.remove();
+     }
+   })
+
+
+
 
   // use function (VacantLots) from above to create a var that pulls from that data
   /*var myHTML1 = `
