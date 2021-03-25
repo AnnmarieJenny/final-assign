@@ -63,6 +63,8 @@ var LandUseLookup = (code) => {
   }
 };
 
+
+
 // a helper function for looking up colors and descriptions for NYC land use codes
 var FloodZoneLookup = (code) => {
   switch (code) {
@@ -246,6 +248,7 @@ map.on('load', function(){ // or style-load ??
             [
               'A',
               FloodZoneLookup(1).color,
+
             ],
             [
               'AE',
@@ -305,66 +308,86 @@ map.on('load', function(){ // or style-load ??
       }
     });
 
-/*
-  //enumerate ids of the layers
-  var toggleableLayerIds = [
-    'Long Beach City', 'Land Uses', 'Poverty Rate (2016)', 'Flood Zones', 'Liquefaction Zone'];
-  // set up the corresponding toggle button for each layer
-  for (var i = 0; i < toggleableLayerIds.length; i++) {
-  var id = toggleableLayerIds[i];
-  var link = document.createElement('a');
-    link.href = '#';
-    link.className = 'active';
-    link.textContent = id;
-  link.onclick = function (e) {
-  var clickedLayer = this.textContent;
-    e.preventDefault();
-    e.stopPropagation();
-  var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
-    // toggle layer visibility by changing the layout object's visibility property
-    if (visibility === 'visible') {
-        map.setLayoutProperty(clickedLayer, 'visibility', 'none');
-        this.className = '';
-    }
-    else {
-        this.className = 'active';
-        map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
-    }
-    };
-  var layers = document.getElementById('menu');
-  layers.appendChild(link);
-} */
 
-/*var popup = new mapboxgl.Popup({
-  closeButton: false,
+
+var popup = new mapboxgl.Popup({
   closeOnClick: false
 })
 
+var landuseDescription = map.queryRenderedFeatures(e.point, {
+  layers: ['land-uses'],
+  [
+    100,
+    LandUseLookup(1).description,
+  ],
+  [
+    200,
+    LandUseLookup(2).description,
+  ],
+  [
+    300,
+    LandUseLookup(3).description,
+  ],
+  [
+    400,
+    LandUseLookup(4).description,
+  ],
+  [
+    500,
+    LandUseLookup(5).description,
+  ],
+  [
+    600,
+    LandUseLookup(6).description,
+  ],
+  [
+    700,
+    LandUseLookup(7).description,
+  ],
+  [
+    800,
+    LandUseLookup(8).description,
+  ],
+  [
+    1100,
+    LandUseLookup(9).description,
+  ],
+  [
+    999,
+    LandUseLookup(10).description,
+  ],
+    ]});
 
 // create pop up with multiple properties listed below
 map.on('mousemove', function (e) {
-  console.log(e)
   var features = map.queryRenderedFeatures(e.point, {
-    layers: ['land-uses']
+    layers: ['land-uses'],
   });
+console.log(features)
 
 if (features.length > 0) {
   // show the Popup
   // populate the Popup and set its coordinates
   // based on the feature
 
-  var hoveredFeature = features[0]// problem here?
-  var popupContent = `
-      <p><strong>Land Use:</strong>${LandUseLookup(hoveredFeature.properties.GENERAL_CL).description}</p>
-  `
 
-  popup.setLngLat(e.lngLat).setHTML(popupContent).addTo(map);
+  var hoveredFeature = features[0]// problem here? possible there are overlapping features?
+  /*var landuseDescription = LandUseLookup(hoveredFeature.properties.GENERAL_CL).description*/
+
+  var popupContent = `
+      <div>
+        ${landuseDescription}
+      </div>
+  `
+// The code needs to be given indication elsewhere besides the paint area
+// of what the case 1 - 10 translate to in terms of GENERAL_CL Land Use codes
+
+  popup.setLngLat(e.lngLat).setHTML(landuseDescription).addTo(map);
 } else{
   // remove pop up if there are not queryRenderedFeatures
   popup.remove();
 }
 
-console.log(features)
 })
 
   // use function (VacantLots) from above to create a var that pulls from that data
@@ -378,7 +401,7 @@ console.log(features)
   });*/
 
   // create pop up with multiple properties listed below
-  map.on('click', function (e) {
+  /*map.on('click', function (e) {
     var features = map.queryRenderedFeatures(e.point, {
       layers: ['long-beach','pov-rate', 'flood-zones', 'liquefaction-zone']
     });})
@@ -390,7 +413,7 @@ console.log(features)
       .setLngLat(e.lngLat)
       .setHTML(myHTML)
       .addTo(map);
-    });
+    });*/
 
   // turn pointer on when it hovers over geos/vacant lots
   map.on('mouseenter', 'long-beach', (e) => {
@@ -434,3 +457,5 @@ console.log(features)
   map.on('mouseleave', 'liquefaction-zone', (e) => {
     map.getCanvas().style.cursor = '';
   })
+
+})
