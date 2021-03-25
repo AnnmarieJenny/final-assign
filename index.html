@@ -3,41 +3,41 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-
   <title>Final Project Prep</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Long Beach, CA H&V Map">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
   <link href='https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.css' rel='stylesheet' />
+  <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.2.0/mapbox-gl-geocoder.css' type='text/css' />
   <link rel="stylesheet" href="css/styles.css?v=1.0">
-  <!-- might need this for layer ids ??-->
-  <script src="https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.js"></script>
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Secular+One&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/6fa4d4a2eb.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="#">H+V Map</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavDropdown">
-          <ul class="navbar-nav"> <!--need to keep this right?-->
-            <li class="nav-item">
-              <a class="nav-link" href="#">About</a>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Resource Links
-              </a>
-              <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                <li><a class="dropdown-item" href="#">Action</a></li>
-                <li><a class="dropdown-item" href="#">Another action</a></li>
-                <li><a class="dropdown-item" href="#">Something else here</a></li>
-              </ul>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
+  <div id="myModal" class="modal">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h3> Hazard Mitigation & Vulnerability Map</h3>
+      <!--  line to mimic bootstrap modals
+      code adapted from https://github.com/aren-kab/nyc-colleges-universities-->
+      <hr>
+        <p>Description about the intersection of Hazard Mitigation and Vulnerability, the importance of analyzing the two.
+        And also talk about Long Beach City specifically. </p>
+      <h4> Layer Explanations </h4>
+        <p> <b>Primary Layers:</b> Explain.</p>
+          <p> <b>Secondary Layers:</b> Explain. </p>
+    </div>
+  </div>
+  <div class="topnav">
+    <a class="navtitle">Hazard & Vulnerability Map</a>
+    <a class="navsub" id ="about">About
+      <i class="fas fa-info-circle"></i>
+    </a>
+    <!-- <a class = "navsub">Sources</a> -->
+  </div>
     <nav id="menu">
       <div class="menu-titles">
         <b>Primary Layers</b>
@@ -70,7 +70,7 @@
       <div>
         <input class='layer-toggle' type="checkbox" id="pov-rate" name="scales"
                unchecked>
-        <label for="pov-rate">Poverty Rate</label>
+        <label for="pov-rate">Poverty Rate (2016)</label>
         <div class='legend'>
           <!--using code from https://tilemill-project.github.io/tilemill/docs/guides/advanced-legends/-->
           <div class= 'my-legend'>
@@ -142,6 +142,7 @@
   <div id='map-container'>MAP</div>
 </div>
   <script src='https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.js'></script>
+   <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.2.0/mapbox-gl-geocoder.min.js'></script>
   <script
     src="https://code.jquery.com/jquery-3.5.1.min.js"
     integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="

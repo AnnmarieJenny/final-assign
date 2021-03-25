@@ -10,7 +10,7 @@ html, body, .master-container, #sidebar, #map-container {
 }
 
 #sidebar {
-  background: grey;
+  background: #465362;
   width: 335px;
 }
 
@@ -90,15 +90,17 @@ html, body, .master-container, #sidebar, #map-container {
 }*/
 
 #menu {
-  background: #e6e9f0;
-  opacity: 0.8;
+  background: #a6b2bf;
+  color: #011936;
+  opacity: 0.95;
   position: absolute;
   z-index: 1;
   top: 70px;
   right: 30px;
-  border-radius: 5px;
+  border-radius: 10px;
   width: 250px;
-  border: 1px solid rgba(0, 0, 0, 0.4);
+  border: 3px solid #465362;
+  border-style: dotted;
   font-family: sans-serif;
   margin-top: 5px;
 }
@@ -116,7 +118,7 @@ input[type=checkbox]:checked~.legend {
   background-color: white;
   width: 250px
   font-family: 'Gilroy-Regular', sans-serif;
-  color: black;
+  color: #011936;
   z-index: 1; // stack order
   }
 
@@ -155,4 +157,80 @@ input[type=checkbox]:checked~.legend {
   margin-right: 10px;
   margin-left: 10px;
   border: 1px solid #999;
+  }
+
+  .modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 2; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  }
+
+  /* Modal Content/Box */
+  .modal-content {
+    background-color: #fefefe;
+    border-radius: 10px;
+    margin: 20% 30%; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%;
+    min-width: 20%;
+    height: auto; /* Could be more or less, depending on screen size */
+  }
+
+  /* The Close Button */
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+
+  /* Add a  background color to the top navigation */
+  .topnav {
+    background-color: #011936;
+    overflow: hidden;
+
+  }
+
+  /* style the nav bar  */
+  .topnav a {
+    float: left;
+    color: white;
+    text-align: center;
+    padding: 15px 16px;
+    font-size: 18px;
+
+  }
+
+  .topnav .navsub{
+    margin-top: 4px;
+  }
+
+  /* add hover effect to about and sources */
+  .navsub:hover {
+    font-weight: bolder;
+    cursor: pointer;
+  }
+
+  /* Make title of map bigger and bold */
+  .topnav .navtitle {
+    font-weight: bold;
+    font-size: 22px;
+    text-align: center;
+    padding: 16px 16px;
+    color: white;
   }

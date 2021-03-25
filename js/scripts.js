@@ -340,9 +340,43 @@ var popup = new mapboxgl.Popup({
   ],
 ]});*/
 
+// Popup for LandUse and PovRate
+// create pop up with multiple properties listed below
+/*map.on('click', function (e) {
+  var features = map.queryRenderedFeatures(e.point, {
+    layers: ['land-uses', 'pov-rate'],
+  });
+console.log(features)
+
+if (features.length > 0) {
+  // show the Popup
+  // populate the Popup and set its coordinates
+  // based on the feature
+
+  var clickedFeature = features[0]// problem here? possible there are overlapping features?
+  var landuseDescription = clickedFeature.properties.GENERAL_CL
+  var povRate = clickedFeature.properties.ACS_POV2_1
+  // LandUseLookup(hoveredFeature.properties.GENERAL_CL).description
+  var popupContent = `
+      <div>
+        <p><b>Land Use: </b>${landuseDescription}</p>
+        <p><b>Poverty Rate: </b>${povRate}%</p>
+      </div>
+  `
+// The code needs to be given indication elsewhere besides the paint area
+// of what the case 1 - 10 translate to in terms of GENERAL_CL Land Use codes
+
+  popup.setLngLat(e.lngLat).setHTML(popupContent).addTo(map);
+} else{
+  // remove pop up if there are not queryRenderedFeatures
+  popup.remove();
+}
+
+})*/
+
 // Popup for LandUse
 // create pop up with multiple properties listed below
-map.on('mousemove', function (e) {
+/*map.on('click', function (e) {
   var features = map.queryRenderedFeatures(e.point, {
     layers: ['land-uses'],
   });
@@ -353,28 +387,28 @@ if (features.length > 0) {
   // populate the Popup and set its coordinates
   // based on the feature
 
-  var hoveredFeature = features[0]// problem here? possible there are overlapping features?
-  var landuseDescription = hoveredFeature.properties.GENERAL_CL
+  var clickedFeature = features[0]// problem here? possible there are overlapping features?
+  var landuseDescription = clickedFeature.properties.GENERAL_CL
   // LandUseLookup(hoveredFeature.properties.GENERAL_CL).description
-  var popupContent = `
+  var landusePopup = `
       <div>
-        ${landuseDescription}
+        <p><b>Land Use: </b>${landuseDescription}</p>
       </div>
   `
 // The code needs to be given indication elsewhere besides the paint area
 // of what the case 1 - 10 translate to in terms of GENERAL_CL Land Use codes
 
-  popup.setLngLat(e.lngLat).setHTML(landuseDescription).addTo(map);
+  popup.setLngLat(e.lngLat).setHTML(landusePopup).addTo(map);
 } else{
   // remove pop up if there are not queryRenderedFeatures
   popup.remove();
 }
 
-})
+})*/
 
 // Popup for Pov Rate (2016)
 // create pop up with multiple properties listed below
-map.on('mousemove', function (e) {
+map.on('click', function (e) {
   var features = map.queryRenderedFeatures(e.point, {
     layers: ['pov-rate'],
   });
@@ -385,21 +419,21 @@ if (features.length > 0) {
   // populate the Popup and set its coordinates
   // based on the feature
 
-  var hoveredFeature = features[0]
-  var popupContent = `
+  var clickedFeature = features[0]
+  var povratePopup = `
       <div>
-        <b>Poverty Rate: </b>${hoveredFeature.properties.ACS_POV2_1}%
+        <b>Poverty Rate: </b>${clickedFeature.properties.ACS_POV2_1}%
       </div>`
-  popup.setLngLat(e.lngLat).setHTML(popupContent).addTo(map);
+  popup.setLngLat(e.lngLat).setHTML(povratePopup).addTo(map);
     } else{
   // remove pop up if there are not queryRenderedFeatures
   popup.remove();
     }
-    })
+  })
 
 // Popup for Flood Zones
 // create pop up with multiple properties listed below
-map.on('mousemove', function (e) {
+/*map.on('click', function (e) {
   var features = map.queryRenderedFeatures(e.point, {
     layers: ['flood-zones'],
     });
@@ -409,17 +443,17 @@ map.on('mousemove', function (e) {
   // show the Popup
   // populate the Popup and set its coordinates
   // based on the feature
-  var hoveredFeature = features[0]
-  var popupContent = `
+  var clickedFeature = features[0]
+  var floodzonePopup = `
     <div>
-      <b>Poverty Rate: </b>${hoveredFeature.properties.ACS_POV2_1}%
+      <b>Flood Zone: </b>${clickedFeature.properties.ZONE_TYPE}
    </div>`
-   popup.setLngLat(e.lngLat).setHTML(popupContent).addTo(map);
+   popup.setLngLat(e.lngLat).setHTML(floodzonePopup).addTo(map);
       } else{
   // remove pop up if there are not queryRenderedFeatures
     popup.remove();
      }
-   })
+   })*/
 
 
 
@@ -492,4 +526,32 @@ map.on('mousemove', function (e) {
     map.getCanvas().style.cursor = '';
   })
 
+  var modal = document.getElementById("myModal");
+  // Get about as element  to open the modal
+  var btn = document.getElementById("about");
+  // Get the <span> element that closes the modal
+  var span = document.getElementsByClassName("close")[0];
+
+  // When the user clicks on about, open the modal
+  btn.onclick = function() {
+    modal.style.display = "block";
+  }
+
+  // When the user clicks on x, close the modal
+  span.onclick = function() {
+    modal.style.display = "none";
+  }
+
+  // When the user clicks anywhere outside of the modal, close it
+  window.onclick = function(event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  }
+
+  //show modal on load
+  $( document).ready(function() {
+    $('#myModal').show();
+    // Handler for .load() called.
+  });
 })
