@@ -305,52 +305,50 @@ map.on('click', function (e) {
 // check each layer's visibility
 var visibleLayers = [];
 
-  if (map.setLayoutProperty('land-use', 'visibility', 'visible')) {
-      visibleLayers.push('land-use')
+  if (map.getLayoutProperty('land-uses', 'visibility') == 'visible') {
+      visibleLayers.push('land-uses')
   }
-  if (map.setLayoutProperty('pov-rate', 'visibility', 'visible')) {
+  if (map.getLayoutProperty('pov-rate', 'visibility') == 'visible') {
       visibleLayers.push('pov-rate')
   }
-  if (map.setLayoutProperty('flood-zones', 'visibility', 'visible')) {
+  if (map.getLayoutProperty('flood-zones', 'visibility') == 'visible') {
       visibleLayers.push('flood-zones')
   }
   // visibleLayers --> ['land-use', 'pov-rate', 'flood-zones']
 
 // add var visibleLayers
   var features = map.queryRenderedFeatures(e.point, {
-    layers: [visibleLayers], // visibleLayers here
+    layers: visibleLayers, // visibleLayers here
   });
 console.log(features)
 
 if (features.length > 0) {
   // populate the Popup based on the layer / feature
 
-var clickedFeature = features[0]// problem here? possible there are overlapping features?
-var landuseDescription = clickedFeature.properties.GENERAL_CL
+var clickedFeature = features[0]
 var povRate = clickedFeature.properties.ACS_POV2_1
-var floodzoneDescription = clickedFeature.properties.ZONE_TYPE
 
 var popContent = [];
   // can set up empty one before
-  if(feature.properties.Layer = '') {
+  if(clickedFeature.layer.id === '') {
     var popupContent = `
-    <p>${''}</p>
+    ${''}
     `
   }
   // find layer where it comes from
-  if(feature.properties.Layer = 'land-use') {
+  if(clickedFeature.layer.id === 'land-uses') {
     var popupContent = `
-    <p><b>Land Use: </b>${landuseDescription}</p>
+    <b>Land Use: </b>${LandUseLookup(clickedFeature.properties.GENERAL_CL).description}
     `
   }
-  if(feature.properties.Layer = 'pov-rate') {
+  if(clickedFeature.layer.id === 'pov-rate') {
     var popupContent = `
-    <p><b>Poverty Rate: </b>${povRate}</p>
+    <b>Poverty Rate: </b>${povRate}%
     `
   }
-  if(feature.properties.Layer = 'flood-zones') {
+  if(clickedFeature.layer.id === 'flood-zones') {
       var popupContent = `
-      <p><b>Flood Zone Type: </b>${floodzoneDescription}</p>
+      <b>Flood Zone Type: </b>${FloodZoneLookup(clickedFeature.properties.ZONE_TYPE).description}
       `
   }
   popup.setLngLat(e.lngLat).setHTML(popupContent).addTo(map);
@@ -358,7 +356,6 @@ var popContent = [];
   // remove pop up if there are not queryRenderedFeatures
   popup.remove();
 }
-
 })
 
 // Popup for LandUse
@@ -378,7 +375,7 @@ if (features.length > 0) {
   var landuseDescription = LandUseLookup(clickedFeature.properties.GENERAL_CL).description
   var landusePopup = `
       <div>
-        <p><b>Land Use: </b>${landuseDescription}</p>
+        <b>Land Use: </b>${landuseDescription}
       </div>
   `
 // The code needs to be given indication elsewhere besides the paint area
@@ -390,6 +387,7 @@ if (features.length > 0) {
   popup.remove();
 }
 
+})
 })*/
 
 // Popup for Pov Rate (2016)
