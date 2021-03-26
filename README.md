@@ -13,7 +13,7 @@ Layers on this map include:
 ## Explanation of Layers 
 To enable the analysis described above, the **primary layers** on this map are those which display vulnerabilities. Poverty rate is an indicator of social vulnerability and land use is an indicator of potential phsyical vulnerabilities, depending on what certain zones permit or currently have in terms of development.  
 
-The **secondary layers** display display hazards. These include the liquefaction zone and flood zones. These layers are intended to reveal the level of risk for flood events and/or earthquakes in the city.
+The **secondary layers** display hazards. These include the liquefaction zone and flood zones. These layers are intended to reveal the level of risk for flood events and/or earthquakes in the city.
 
 ## Key Terms 
 
