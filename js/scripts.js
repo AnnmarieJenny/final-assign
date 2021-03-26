@@ -7,7 +7,7 @@ var map = new mapboxgl.Map({
     zoom: 10.8
 });
 
-// a helper function for looking up colors and descriptions for NYC land use codes
+// a helper function for looking up colors and descriptions for land use codes
 var LandUseLookup = (code) => {
     switch (code) {
         case 100:
@@ -58,14 +58,14 @@ var LandUseLookup = (code) => {
         case 999:
             return {
                 color: '#f7f7f7',
-                    description: 'Not Zoned',
+                description: 'Not Zoned',
             };
     }
 };
 
 
 
-// a helper function for looking up colors and descriptions for NYC land use codes
+// a helper function for looking up colors and descriptions for flood zone types
 var FloodZoneLookup = (code) => {
     switch (code) {
         case 'A':
@@ -106,31 +106,30 @@ var FloodZoneLookup = (code) => {
     }
 };
 
-//add in map zoom in and zoom out feature
+//add in nav control feature to zoom in and zoom out of map
 var nav = new mapboxgl.NavigationControl();
 map.addControl(nav, 'top-left');
 
 map.on('load', function() {
-    // add source and layer for land use zoning
-    // primary layer 1 of 2
+    // add source for land uses
     map.addSource('land-uses', {
         type: 'geojson',
         data: 'data/land-uses.geojson'
     });
-
-    // create vars to prep for variety of colors
+    // add source for land uses
+    // primary layer 1 of 2
     map.addLayer({
         'id': 'land-uses',
         'type': 'fill',
         'source': 'land-uses',
         'layout': {
-            'visibility': 'visible'
+            'visibility': 'visible' //select/show this layer as default on map
         },
         'paint': {
             'fill-color': {
                 type: 'categorical',
                 property: 'GENERAL_CL',
-                stops: [ // if time permits try to consolidate since both this and the var above use numeric
+                stops: [ // use land use codes (100,200, etc.) to call corresponding colors using the LandUseLookup function
                     [
                         100,
                         LandUseLookup(100).color,
@@ -173,28 +172,29 @@ map.on('load', function() {
                     ],
                 ]
             },
-            'fill-outline-color': '#ccc', // can make wider, etc.
+            'fill-outline-color': '#ccc',
             'fill-opacity': 1
         }
     });
-    // add source and layer for poverty rate
-    // primary layer (2 of 2)
+    // add source for poverty rate
     map.addSource('pov-rate', {
         type: 'geojson',
         data: 'data/pov.geojson'
     });
+    // add layer for poverty rate
+    // primary layer (2 of 2)
     map.addLayer({
         'id': 'pov-rate',
         'type': 'fill',
         'source': 'pov-rate',
         'layout': {
-            'visibility': 'none'
+            'visibility': 'none' //hide this layer as default on map
         },
         'paint': {
             'fill-color': [
                 'interpolate',
                 ['linear'],
-                ['get', 'ACS_POV2_1'],
+                ['get', 'ACS_POV2_1'], //color code based on pov rate % thresholds
                 0,
                 '#f2f0f7',
                 13,
@@ -207,27 +207,28 @@ map.on('load', function() {
                 '#54278f'
             ],
             'fill-opacity': 1,
-            'fill-outline-color': '#cccccc', // can make wider, etc.
+            'fill-outline-color': '#cccccc',
         }
     })
-    // add source and layer for flood zones
-    // supplemental layer (1 of 2)
+    // add source for flood zones
     map.addSource('flood-zones', {
         type: 'geojson',
         data: 'data/floods.geojson'
     });
+    // add layer for flood zones
+    // supplemental layer (1 of 2)
     map.addLayer({
         'id': 'flood-zones',
         'type': 'fill',
         'source': 'flood-zones',
         'layout': {
-            'visibility': 'none'
+            'visibility': 'none' // hide layer as default on map
         },
         'paint': {
             'fill-color': {
                 type: 'categorical',
                 property: 'ZONE_TYPE',
-                stops: [ // if time permits try to consolidate since both this and the var above use numeric
+                stops: [ // use flood zone codes (A, AE, etc.) to call corresponding colors using the FloodZoneLookup function
                     [
                         'A',
                         FloodZoneLookup('A').color,
@@ -259,30 +260,32 @@ map.on('load', function() {
                     ],
                 ]
             },
-            'fill-outline-color': '#ccc', // can make wider, etc.
+            'fill-outline-color': '#ccc',
             'fill-opacity': 0.7
         }
     });
-    // add source and layer for liquefaction zones (caused by EQs)
-    // supplemental layer (2 of 2)
+    // add source for liquefaction zones
     map.addSource('liquefaction-zone', {
         type: 'geojson',
         data: 'data/liquefaction.geojson'
     });
+    // add layer for liquefaction zones
+    // supplemental layer (2 of 2)
     map.addLayer({
         'id': 'liquefaction-zone',
         'type': 'fill',
         'source': 'liquefaction-zone',
         'layout': {
-            'visibility': 'visible'
+            'visibility': 'visible'// show layer as default on map
         },
         'paint': {
-            'fill-outline-color': '#ccc', // can make wider, etc.
+            'fill-outline-color': '#ccc',
             'fill-color': 'lightgreen',
             'fill-opacity': 0.5
         }
     });
 
+    // enable toggling by linking visibility to checkbox status (i.e. checked or unchecked)
     $('.layer-toggle').change(function() {
         const layerId = $(this).attr('id')
         if ($(this).is(':checked')) {
@@ -292,17 +295,15 @@ map.on('load', function() {
         }
     });
 
-
-    // show the Popup
+    // create popup
     var popup = new mapboxgl.Popup({
         closeOnClick: false
     })
 
-    // Popup for LandUse and PovRate
-    // create pop up with multiple properties listed below
+    // call popup on click for visible layers only
     map.on('click', function(e) {
-
         // check each layer's visibility
+        // visibleLayers --> ['land-use', 'pov-rate', 'flood-zones']
         var visibleLayers = [];
 
         if (map.getLayoutProperty('land-uses', 'visibility') == 'visible') {
@@ -314,42 +315,43 @@ map.on('load', function() {
         if (map.getLayoutProperty('flood-zones', 'visibility') == 'visible') {
             visibleLayers.push('flood-zones')
         }
-        // visibleLayers --> ['land-use', 'pov-rate', 'flood-zones']
 
-        // add var visibleLayers
+        // call features for visibleLayers
         var features = map.queryRenderedFeatures(e.point, {
-            layers: visibleLayers, // visibleLayers here
+            layers: visibleLayers,
         });
-        console.log(features)
 
         if (features.length > 0) {
-            // populate the Popup based on the layer / feature
 
-            var clickedFeature = features[0]
-            var povRate = clickedFeature.properties.ACS_POV2_1
+            // set up variables to call by layer based on visibility (as coded above)
+            var clickedFeature = features[0] // for all existing features
+            var povRate = clickedFeature.properties.ACS_POV2_1 // for poverty rate
+            // note: land use and flood zones will use their respective lookup functions, already created above
 
             var popContent = [];
-            // can set up empty one before
+            // set up an empty popup for debugging purposes
             if (clickedFeature.layer.id === '') {
                 var popupContent = `
-    ${''}
-    `
+                                    ${''}
+                                    `
             }
-            // find layer where it comes from
+            // show description in popup for landuse layer
             if (clickedFeature.layer.id === 'land-uses') {
                 var popupContent = `
-    <b>Land Use: </b>${LandUseLookup(clickedFeature.properties.GENERAL_CL).description}
-    `
+                    <b>Land Use: </b>${LandUseLookup(clickedFeature.properties.GENERAL_CL).description}
+                    `
             }
+            // show rate in popup for poverty rate layer
             if (clickedFeature.layer.id === 'pov-rate') {
                 var popupContent = `
-    <b>Poverty Rate: </b>${povRate}%
-    `
+                    <b>Poverty Rate: </b>${povRate}%
+                    `
             }
+            // show description in popup for flood zones layer
             if (clickedFeature.layer.id === 'flood-zones') {
                 var popupContent = `
-      <b>Flood Zone Type: </b>${FloodZoneLookup(clickedFeature.properties.ZONE_TYPE).description}
-      `
+                    <b>Flood Zone Type: </b>${FloodZoneLookup(clickedFeature.properties.ZONE_TYPE).description}
+                    `
             }
             popup.setLngLat(e.lngLat).setHTML(popupContent).addTo(map);
         } else {
@@ -358,180 +360,70 @@ map.on('load', function() {
         }
     })
 
-    // Popup for LandUse
-    // create pop up with multiple properties listed below
-    /*map.on('click', function (e) {
-      var features = map.queryRenderedFeatures(e.point, {
-        layers: ['land-uses'],
-      });
-    console.log(features)
-
-    if (features.length > 0) {
-      // show the Popup
-      // populate the Popup and set its coordinates
-      // based on the feature
-
-      var clickedFeature = features[0]// problem here? possible there are overlapping features?
-      var landuseDescription = LandUseLookup(clickedFeature.properties.GENERAL_CL).description
-      var landusePopup = `
-          <div>
-            <b>Land Use: </b>${landuseDescription}
-          </div>
-      `
-    // The code needs to be given indication elsewhere besides the paint area
-    // of what the case 1 - 10 translate to in terms of GENERAL_CL Land Use codes
-
-      popup.setLngLat(e.lngLat).setHTML(landusePopup).addTo(map);
-    } else{
-      // remove pop up if there are not queryRenderedFeatures
-      popup.remove();
-    }
-
-    })
-    })*/
-
-    // Popup for Pov Rate (2016)
-    // create pop up with multiple properties listed below
-    /*map.on('click', function (e) {
-      var features = map.queryRenderedFeatures(e.point, {
-        layers: ['pov-rate'],
-      });
-    console.log(features)
-
-    if (features.length > 0) {
-      // show the Popup
-      // populate the Popup and set its coordinates
-      // based on the feature
-
-      var clickedFeature = features[0]
-      var povratePopup = `
-          <div>
-            <b>Poverty Rate: </b>${clickedFeature.properties.ACS_POV2_1}%
-          </div>`
-      popup.setLngLat(e.lngLat).setHTML(povratePopup).addTo(map);
-        } else{
-      // remove pop up if there are not queryRenderedFeatures
-      popup.remove();
-        }
-      })*/
-
-    // Popup for Flood Zones
-    // create pop up with multiple properties listed below
-    /*map.on('click', function (e) {
-      var features = map.queryRenderedFeatures(e.point, {
-        layers: ['flood-zones'],
-        });
-      console.log(features)
-
-      if (features.length > 0) {
-      // show the Popup
-      // populate the Popup and set its coordinates
-      // based on the feature
-      var clickedFeature = features[0]
-      var floodzoneDescription = FloodZoneLookup(clickedFeature.properties.ZONE_TYPE).description
-      var floodzonePopup = `
-        <div>
-          <b>Flood Zone: </b>${floodzoneDescription}
-       </div>`
-       popup.setLngLat(e.lngLat).setHTML(floodzonePopup).addTo(map);
-          } else{
-      // remove pop up if there are not queryRenderedFeatures
-        popup.remove();
-         }
-       })*/
-
-    // use function (VacantLots) from above to create a var that pulls from that data
-    /*var myHTML1 = `
-        <div><b>Land Use Type: </b>${LandUseLookup.description}</div>
-        `
-    new mapboxgl.Popup()
-      .setLngLat(e.lngLat)
-      .setHTML(myHTML1)
-      .addTo(map);
-    });*/
-
-    // create pop up with multiple properties listed below
-    /*map.on('click', function (e) {
-      var features = map.queryRenderedFeatures(e.point, {
-        layers: ['long-beach','pov-rate', 'flood-zones', 'liquefaction-zone']
-      });})
-
-      var myHTML = `
-          <div><b>Name: </b>${features[0].properties.Name}</div>
-          `
-      new mapboxgl.Popup()
-        .setLngLat(e.lngLat)
-        .setHTML(myHTML)
-        .addTo(map);
-      });*/
-
-    // turn pointer on when it hovers over geos/vacant lots
-    map.on('mouseenter', 'long-beach', (e) => {
-        map.getCanvas().style.cursor = 'pointer';
-    })
-    // turn pointer off when it hovers away from geos/vacant lots
-    map.on('mouseleave', 'long-beach', (e) => {
-        map.getCanvas().style.cursor = '';
-    })
-    // turn pointer on when it hovers over geos/vacant lots
+    // turn pointer on when it hovers over geos/landuse layer
     map.on('mouseenter', 'land-uses', (e) => {
         map.getCanvas().style.cursor = 'pointer';
     })
-    // turn pointer off when it hovers away from geos/vacant lots
+    // turn pointer off when it hovers away from geos/landuse layer
     map.on('mouseleave', 'land-uses', (e) => {
         map.getCanvas().style.cursor = '';
     })
 
-    // turn pointer on when it hovers over geos/vacant lots
+    // turn pointer on when it hovers over geos/poverty rate layer
     map.on('mouseenter', 'pov-rate', (e) => {
         map.getCanvas().style.cursor = 'pointer';
     })
-    // turn pointer off when it hovers away from geos/vacant lots
+    // turn pointer off when it hovers away from geos/poverty rate layer
     map.on('mouseleave', 'pov-rate', (e) => {
         map.getCanvas().style.cursor = '';
     })
-    // turn pointer on when it hovers over geos/vacant lots
+
+    // turn pointer on when it hovers over geos/flood zones layer
     map.on('mouseenter', 'flood-zones', (e) => {
         map.getCanvas().style.cursor = 'pointer';
     })
-    // turn pointer off when it hovers away from geos/vacant lots
+    // turn pointer off when it hovers away from geos/flood zones layer
     map.on('mouseleave', 'flood-zones', (e) => {
         map.getCanvas().style.cursor = '';
     })
 
-    // turn pointer on when it hovers over geos/vacant lots
+    // turn pointer on when it hovers over geos/liquefaction layer
     map.on('mouseenter', 'liquefaction-zone', (e) => {
         map.getCanvas().style.cursor = 'pointer';
     })
-    // turn pointer off when it hovers away from geos/vacant lots
+    // turn pointer off when it hovers away from geos/liquefaction layer
     map.on('mouseleave', 'liquefaction-zone', (e) => {
         map.getCanvas().style.cursor = '';
     })
 
+    // create js var for modal as coded in html
+    // code for modal adapted from https://github.com/aren-kab/nyc-colleges-universities
     var modal = document.getElementById("myModal");
-    // Get about as element  to open the modal
+    // get About (in navbar) as element to open the modal
     var btn = document.getElementById("about");
-    // Get the <span> element that closes the modal
+    // get the <span> element that closes the modal
     var span = document.getElementsByClassName("close")[0];
 
-    // When the user clicks on about, open the modal
+    // when the user clicks on About, open the modal
     btn.onclick = function() {
         modal.style.display = "block";
     }
 
-    // When the user clicks on x, close the modal
+    // when the user clicks on 'x', close the modal
     span.onclick = function() {
         modal.style.display = "none";
     }
 
-    // When the user clicks anywhere outside of the modal, close it
+    // when the user clicks outside of the modal, close the modal
     window.onclick = function(event) {
         if (event.target == modal) {
             modal.style.display = "none";
         }
     }
 
-    //* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
+    // side navbar dropdowns
+    // loop through all dropdown buttons to toggle between hiding and showing its dropdown content
+    // code and descrip for dropdowns was adapted from https://www.w3schools.com/howto/howto_js_dropdown_sidenav.asp
     var dropdown = document.getElementsByClassName("dropdown-btn");
     var i;
 
@@ -550,6 +442,5 @@ map.on('load', function() {
     //show modal on load
     $(document).ready(function() {
         $('#myModal').show();
-        // Handler for .load() called.
     });
 })
