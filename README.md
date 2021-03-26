@@ -36,11 +36,11 @@ The **secondary layers** display display hazards. These include the liquefaction
 * [Poverty Rate Layer Source Link](https://datalb.longbeach.gov/datasets/0cb553417e514b5d87d391ec3b751e2f_0 "Poverty Rate Source Link")
 
 **Liquefaction Zones**
-* City of Long Beach Data. _Liquefaction Zones._ February 2, 2016. 
+* City of Long Beach Data, _Liquefaction Zones._ February 2, 2016. 
 * [Liquefaction Zone Layer Source Link](https://geohub.lacity.org/datasets/4842ad85584c430481246852280257c2_9 "Liquefaction Zone Layer Source Link")
 
 **Flood Zones** 
-* City of Long Beach Data. _Flood Zones._ July 27, 2020. 
+* City of Long Beach Data, _Flood Zones._ July 27, 2020. 
 * [Flood Zones Layer Source Link](https://datalb.longbeach.gov/datasets/3aff2dbcf9bc43ba97a3bf5aa90d82ae_7 "Flood Zones Layer Source Link")
 
 
