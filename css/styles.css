@@ -152,7 +152,7 @@ input[type=checkbox]:checked~.legend {
   /* add a  background color to the top navigation */
   .topnav {
     background-color: #011936;
-    overflow: hidden;
+    /*overflow: hidden;*/
   }
 
   /* style the top nav bar*/
