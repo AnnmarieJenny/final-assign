@@ -318,7 +318,7 @@ input[type=checkbox]:checked~.legend {
   padding: 6px 8px 6px 16px;
   text-decoration: none;
   font-size: 15px;
-  display: block;
+  display: none;
   border: none;
   width:100%;
   text-align: left;
