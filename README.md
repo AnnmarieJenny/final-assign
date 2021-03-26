@@ -28,7 +28,7 @@ The **secondary layers** display display hazards. These include the liquefaction
 ## Data Sources
 
 **Land Use Layer**
-* City of Long Beach Data,_Zoning._ March 23, 2021. 
+* City of Long Beach Data, _Zoning._ March 23, 2021. 
 * [Land Use Layer Source Link](https://datalb.longbeach.gov/datasets/429114cf9e314736b41703c117a4614e_0?page=13 "Land Use Layer Source Link")
 
 **Poverty Rate (2016)**
