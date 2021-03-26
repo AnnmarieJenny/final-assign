@@ -24,11 +24,13 @@
       <!--  line to mimic bootstrap modals
       code adapted from https://github.com/aren-kab/nyc-colleges-universities-->
       <hr>
-        <p>Description about the intersection of Hazard Mitigation and Vulnerability, the importance of analyzing the two.
-        And also talk about Long Beach City specifically. </p>
+        <p>This map offers a high-level idea of which areas may contain social and physical vulnerabilities in the case of an earthquake or flood in the City of Long Beach, CA.</p>
+        <p>Hazard Mitigation is the process of minimizing and/or eliminating the potential for harm in the event of a disaster.
+          This requires analysis, planning, and coordination from multiple stakeholders in a community.
+          It is important to consider the social as well as physical vulnerabilities that exist in a community by observing how certain social disadvantages intersect with hazards.</p>
       <h4> Layer Explanations </h4>
-        <p> <b>Primary Layers:</b> Explain.</p>
-          <p> <b>Secondary Layers:</b> Explain. </p>
+        <p> <b>Primary Layers:</b> They are intended to serve as base layers on which the secondary layers are overlaid to show where certain hazards are located and how that intersects with certain land uses or trends in poverty. </p>
+          <p> <b>Secondary Layers:</b> These layers are intended to reveal the level of risk for flood events and/or earthquakes in the city.  </p>
     </div>
   </div>
   <div class="topnav">
@@ -131,7 +133,54 @@
     </div>
   </nav>
   <div class= 'master-container'>
-    <div id='sidebar'><p class = 'title'>Hazard and Vulnerability Map</p>
+  <div class="sidenav">
+      <button class="dropdown-btn">How To Use This Map
+        <i class="fa fa-caret-down"></i>
+      </button>
+      <div class="dropdown-container">
+        <p><b>Layers: </b>Toggle the layers on and off using the legend on the right side of the map.
+          The intent is to view the ways in which secondary layers overlay onto primary layers. See the About section for more information. </p>
+        <p><b>Indicators: </b>Click on a given geography for the Land Use, Poverty Rate, or Flood Zone layers for specific information on that area.
+          The liquefaction zone layer does not display significant variance in risk and therefore does not have more specific information upon click.</p>
+      </div>
+      <button class="dropdown-btn">Key Terms
+        <i class="fa fa-caret-down"></i>
+      </button>
+      <div class="dropdown-container">
+        <p><b>Land Uses </b>Land Uses show the allowed uses for various sections of land within a city.
+          Zoning ordinances are issued by the City to regulate and determine these uses and/or allowed development.
+          These are in conformance with the City of Long Beach’s General Plan.  </p>
+        <p><b>Poverty Rate </b> shows the percentage of families whose total income is at or below their respective threshold;
+          thresholds are defined depending on the size and composition of the family.
+          These rates are represented at the Census Tract level on this map. </p>
+          <p><b>The Liquefaction Zone </b> identifies where the stability of foundation soils must be investigated,
+            and countermeasures undertaken in the design and construction of buildings for human occupancy.
+            Statutes require that cities and counties use these zones as part of their construction permitting process (City of Long Beach Data). </p>
+            <p><b>Flood Zones </b>show parts of the City that lie within a Special Flood Hazard Area (SFHA), defined by FEMA.  A SFHA is also known as the 100-year floodplain.
+              It is more precisely defined as the floodplain associated with a flood that has a 1-percent-annual chance of being equaled or exceeded in any given year.
+              The SFHA is not a flood event that happens once in a hundred years, rather a flood event that has a 1-percent chance of occurring every year (City of Long Beach Data). </p>
+      </div>
+      <button class="dropdown-btn">Data Sources
+        <i class="fa fa-caret-down"></i>
+      </button>
+      <div class="dropdown-container">
+        <p><i>Click on one of the layer names below to be taken to the corresponding source link.</i></p>
+        <a href="https://datalb.longbeach.gov/datasets/429114cf9e314736b41703c117a4614e_0?page=13">Land Use</a>
+        <a href="https://datalb.longbeach.gov/datasets/0cb553417e514b5d87d391ec3b751e2f_0">Poverty Rate (2016)</a>
+        <a href="https://geohub.lacity.org/datasets/4842ad85584c430481246852280257c2_9">Liquefaction Zone</a>
+        <a href="https://datalb.longbeach.gov/datasets/3aff2dbcf9bc43ba97a3bf5aa90d82ae_7">Flood Zones</a>
+      </div>
+      <button class="dropdown-btn">City Resources
+        <i class="fa fa-caret-down"></i>
+      </button>
+      <div class="dropdown-container">
+        <p><i>Click on one of the layer names below to be taken to the corresponding City of Long Beach resource.</i></p>
+        <a href="http://www.longbeach.gov/disasterpreparedness/">Bureau of Disaster Preparedness</a>
+        <a href="http://www.longbeach.gov/globalassets/disaster-preparedness/media-library/documents/home/longbeach-hazard-mitigation-plan">Hazard Mitigation Plan (2017)</a>
+        <a href="http://www.longbeach.gov/lbds/planning/advance/general-plan/">General City Plan</a>
+      </div>
+</div>
+    <!--<div id='sidebar'><p class = 'title'>Hazard and Vulnerability Map</p>
         <p class = 'city-title'>City of Long Beach, CA</p><br></br>
       <p class = 'subtitle'>How to Use This Map</p>
       <p class = 'text'>[Explanation]</p><br></br>
@@ -139,7 +188,7 @@
       <p class = 'text'>[100-Year Flood Zone, Liquefaction, etc.]</p><br></br>
       <p class = 'subtitle'>Data Sources</p>
       <p class = 'text'>[List of Sources]</p>
-    </div>
+    </div>-->
   <div id='map-container'>MAP</div>
 </div>
   <script src='https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.js'></script>
