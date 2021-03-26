@@ -3,8 +3,8 @@ mapboxgl.accessToken = 'pk.eyJ1IjoiYW5ubWFyaWVqZW5ueSIsImEiOiJja2w4NGUycWMydHVnM
 var map = new mapboxgl.Map ({
     container: 'map-container',
     style: 'mapbox://styles/mapbox/light-v10',
-    center: [-118.182114,33.777613],
-    zoom: 10.5
+    center: [-118.119180,33.797752],
+    zoom: 10.8
 });
 
 // a helper function for looking up colors and descriptions for NYC land use codes
