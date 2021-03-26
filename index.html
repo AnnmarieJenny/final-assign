@@ -1,188 +1,186 @@
 <!doctype html>
 
 <html lang="en">
+
 <head>
-  <meta charset="utf-8">
-  <title>H&V Map - Long Beach, CA</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Long Beach, CA H&V Map">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
-  <link href='https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.css' rel='stylesheet' />
-  <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.2.0/mapbox-gl-geocoder.css' type='text/css' />
-  <link rel="stylesheet" href="css/styles.css?v=1.0">
-  <link rel="preconnect" href="https://fonts.gstatic.com">
-  <link href="https://fonts.googleapis.com/css2?family=Secular+One&display=swap" rel="stylesheet">
-  <script src="https://kit.fontawesome.com/6fa4d4a2eb.js" crossorigin="anonymous"></script>
+    <meta charset="utf-8">
+    <title>H&V Map - Long Beach, CA</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Long Beach, CA H&V Map">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.css' rel='stylesheet' />
+    <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.2.0/mapbox-gl-geocoder.css' type='text/css' />
+    <link rel="stylesheet" href="css/styles.css?v=1.0">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Secular+One&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/6fa4d4a2eb.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
-  <div id="myModal" class="modal">
-    <!-- Modal content -->
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <h3> Hazard Mitigation & Vulnerability Map</h3>
-      <!--  line to mimic bootstrap modals
+    <div id="myModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3> Hazard Mitigation & Vulnerability Map</h3>
+            <!--  line to mimic bootstrap modals
       code adapted from https://github.com/aren-kab/nyc-colleges-universities-->
-      <hr>
-        <p>This map offers a high-level display of areas that contain social and physical vulnerabilities in the case of an earthquake or flood in Long Beach, CA.</p>
-        <p>Hazard Mitigation is the process of minimizing and/or eliminating the potential for harm in the event of a disaster.
-          This requires analysis, planning, and coordination from multiple stakeholders in a community.
-          It is important to consider the social as well as physical vulnerabilities that exist in a community by observing how certain social disadvantages intersect with hazards.</p>
-      <h4> Layer Explanations </h4>
-        <p> <b>Primary Layers:</b> These are base layers on which the secondary layers can be overlaid to show where hazards are located and how they intersects with certain land uses or poverty rates. </p>
-          <p> <b>Secondary Layers:</b> These are intended to reveal the level of risk for flood events and/or earthquakes in the city.  </p>
+            <hr>
+            <p>This map offers a high-level display of areas that contain social and physical vulnerabilities in the case of an earthquake or flood in Long Beach, CA.</p>
+            <p>Hazard Mitigation is the process of minimizing and/or eliminating the potential for harm in the event of a disaster.
+                This requires analysis, planning, and coordination from multiple stakeholders in a community.
+                It is important to consider the social as well as physical vulnerabilities that exist in a community by observing how certain social disadvantages intersect with hazards.</p>
+            <h4> Layer Explanations </h4>
+            <p> <b>Primary Layers:</b> These are base layers on which the secondary layers can be overlaid to show where hazards are located and how they intersects with certain land uses or poverty rates. </p>
+            <p> <b>Secondary Layers:</b> These are intended to reveal the level of risk for flood events and/or earthquakes in the city. </p>
+        </div>
     </div>
-  </div>
-  <div class="topnav">
-    <a class="navtitle">Hazard & Vulnerability Map</a>
-    <a class="navsub" id ="about">About
-      <i class="fas fa-info-circle"></i>
-    </a>
-    <!-- <a class = "navsub">Sources</a> -->
-  </div>
+    <div class="topnav">
+        <a class="navtitle">Hazard & Vulnerability Map</a>
+        <a class="navsub" id="about">About
+            <i class="fas fa-info-circle"></i>
+        </a>
+        <!-- <a class = "navsub">Sources</a> -->
+    </div>
     <nav id="menu">
-      <div class="menu-titles">
-        <b>Primary Layers</b>
-      </div>
-      <div>
-        <input class='layer-toggle' type="checkbox" id="land-uses" name="scales"
-               checked>
-        <label for="land-uses">Land Uses</label>
-        <div class='legend'>
-          <!--using code from https://tilemill-project.github.io/tilemill/docs/guides/advanced-legends/-->
-          <div class= 'my-legend'>
-              <div class='legend-scale'>
-                <ul class='legend-labels'>
-                  <li><span style='background:#f4f455;'></span>Residential</li>
-                  <li><span style='background:#ea6661;'></span>Commercial</li>
-                  <li><span style='background:#d36ff4;'></span>Industrial</li>
-                  <li><span style='background:#5CA2D1;'></span>Institutional</li>
-                  <li><span style='background:#8ece7c;'></span>Park</li>
-                  <li><span style='background:#dac0e8;'></span>Public Right-of-Way</li>
-                  <li><span style='background:#f79f79;'></span>Planned Development</li>
-                  <li><span style='background:#EE85B5;'></span>Specific Plan</li>
-                  <li><span style='background:#f7cabf;'></span>Mixed Use</li>
-                  <li><span style='background:#f7f7f7;'></span>Not Zoned</li>
-                </ul>
-              </div>
-              <!--could incorporate images here for each type of building -->
+        <div class="menu-titles">
+            <b>Primary Layers</b>
+        </div>
+        <div>
+            <input class='layer-toggle' type="checkbox" id="land-uses" name="scales" checked>
+            <label for="land-uses">Land Uses</label>
+            <div class='legend'>
+                <!--using code from https://tilemill-project.github.io/tilemill/docs/guides/advanced-legends/-->
+                <div class='my-legend'>
+                    <div class='legend-scale'>
+                        <ul class='legend-labels'>
+                            <li><span style='background:#f4f455;'></span>Residential</li>
+                            <li><span style='background:#ea6661;'></span>Commercial</li>
+                            <li><span style='background:#d36ff4;'></span>Industrial</li>
+                            <li><span style='background:#5CA2D1;'></span>Institutional</li>
+                            <li><span style='background:#8ece7c;'></span>Park</li>
+                            <li><span style='background:#dac0e8;'></span>Public Right-of-Way</li>
+                            <li><span style='background:#f79f79;'></span>Planned Development</li>
+                            <li><span style='background:#EE85B5;'></span>Specific Plan</li>
+                            <li><span style='background:#f7cabf;'></span>Mixed Use</li>
+                            <li><span style='background:#f7f7f7;'></span>Not Zoned</li>
+                        </ul>
+                    </div>
+                    <!--could incorporate images here for each type of building -->
+                </div>
             </div>
         </div>
-      </div>
 
-      <div>
-        <input class='layer-toggle' type="checkbox" id="pov-rate" name="scales"
-               unchecked>
-        <label for="pov-rate">Poverty Rate (2016)</label>
-        <div class='legend'>
-          <!--using code from https://tilemill-project.github.io/tilemill/docs/guides/advanced-legends/-->
-          <div class= 'my-legend'>
-              <div class='legend-scale'>
-                <ul class='legend-labels'>
-                  <li><span style='background:#f2f0f7;'></span>0%-13%</li>
-                  <li><span style='background:#cbc9e2;'></span>13%-26%</li>
-                  <li><span style='background:#9e9ac8;'></span>26%-39%</li>
-                  <li><span style='background:#756bb1;'></span>39%-52%</li>
-                  <li><span style='background:#54278f;'></span>52%-65%</li>
-                </ul>
-              </div>
-              <!--could incorporate images here for each type of building -->
+        <div>
+            <input class='layer-toggle' type="checkbox" id="pov-rate" name="scales" unchecked>
+            <label for="pov-rate">Poverty Rate (2016)</label>
+            <div class='legend'>
+                <!--using code from https://tilemill-project.github.io/tilemill/docs/guides/advanced-legends/-->
+                <div class='my-legend'>
+                    <div class='legend-scale'>
+                        <ul class='legend-labels'>
+                            <li><span style='background:#f2f0f7;'></span>0%-13%</li>
+                            <li><span style='background:#cbc9e2;'></span>13%-26%</li>
+                            <li><span style='background:#9e9ac8;'></span>26%-39%</li>
+                            <li><span style='background:#756bb1;'></span>39%-52%</li>
+                            <li><span style='background:#54278f;'></span>52%-65%</li>
+                        </ul>
+                    </div>
+                    <!--could incorporate images here for each type of building -->
+                </div>
             </div>
-      </div>
-    </div>
-      <div class="menu-titles">
-        <b>Secondary Layers</b>
-      </div>
-    <div>
-      <input class='layer-toggle' type="checkbox" id="liquefaction-zone" name="scales"
-             checked>
-      <label for="liquefaction-zone">Liquefaction Zone</label>
-      <div class='legend'>
-        <!--using code from https://tilemill-project.github.io/tilemill/docs/guides/advanced-legends/-->
-        <div class= 'my-legend'>
-            <div class='legend-scale'>
-              <ul class='legend-labels'>
-                <li><span style='background:lightgreen; opacity: 0.5'></span> Liquefaction Zone<li>
-              </ul>
+        </div>
+        <div class="menu-titles">
+            <b>Secondary Layers</b>
+        </div>
+        <div>
+            <input class='layer-toggle' type="checkbox" id="liquefaction-zone" name="scales" checked>
+            <label for="liquefaction-zone">Liquefaction Zone</label>
+            <div class='legend'>
+                <!--using code from https://tilemill-project.github.io/tilemill/docs/guides/advanced-legends/-->
+                <div class='my-legend'>
+                    <div class='legend-scale'>
+                        <ul class='legend-labels'>
+                            <li><span style='background:lightgreen; opacity: 0.5'></span> Liquefaction Zone
+                            <li>
+                        </ul>
+                    </div>
+                    <!--could incorporate images here for each type of building -->
+                </div>
             </div>
-            <!--could incorporate images here for each type of building -->
-          </div>
-      </div>
-    </div>
-    <div>
-      <input class='layer-toggle' type="checkbox" id="flood-zones" name="scales"
-             unchecked>
-      <label for="flood-zones">Flood Zones</label>
-      <div class='legend'>
-        <!--using code from https://tilemill-project.github.io/tilemill/docs/guides/advanced-legends/-->
-        <div class= 'my-legend'>
-            <div class='legend-scale'>
-              <ul class='legend-labels'>
-                <li><span style='background:#0c2c84;'></span>1% Annual Chance</li>
-                <li><span style='background:#225ea8;'></span>Base Flood Plain</li>
-                <li><span style='background:#41b6c4;'></span>1% Annual Chance (Shallow)</li>
-                <li><span style='background:#1d91c0;'></span>1%+ of Flooding & Hazards</li>
-                <li><span style='background:#95dedb;'></span>Moderate Flood Hazard</li>
-                <li><span style='background:#c5edeb;'></span>0.2% Annual Chance</li>
-                <li><span style='background:#ffffcc;'></span>Other</li>
-              </ul>
+        </div>
+        <div>
+            <input class='layer-toggle' type="checkbox" id="flood-zones" name="scales" unchecked>
+            <label for="flood-zones">Flood Zones</label>
+            <div class='legend'>
+                <!--using code from https://tilemill-project.github.io/tilemill/docs/guides/advanced-legends/-->
+                <div class='my-legend'>
+                    <div class='legend-scale'>
+                        <ul class='legend-labels'>
+                            <li><span style='background:#0c2c84;'></span>1% Annual Chance</li>
+                            <li><span style='background:#225ea8;'></span>Base Flood Plain</li>
+                            <li><span style='background:#41b6c4;'></span>1% Annual Chance (Shallow)</li>
+                            <li><span style='background:#1d91c0;'></span>1%+ of Flooding & Hazards</li>
+                            <li><span style='background:#95dedb;'></span>Moderate Flood Hazard</li>
+                            <li><span style='background:#c5edeb;'></span>0.2% Annual Chance</li>
+                            <li><span style='background:#ffffcc;'></span>Other</li>
+                        </ul>
+                    </div>
+                    <!--could incorporate images here for each type of building -->
+                </div>
             </div>
-            <!--could incorporate images here for each type of building -->
-          </div>
-      </div>
-    </div>
-  </nav>
-  <div class= 'master-container'>
-    <!-- adapted code from https://www.w3schools.com/howto/howto_js_dropdown_sidenav.asp -->
-  <div class="sidenav">
-    <p class="title-btn">
-      City of Long Beach, CA
-    </p>
-      <button class="dropdown-btn">How To Use This Map
-        <i class="fa fa-caret-down"></i>
-      </button>
-      <div class="dropdown-container">
-        <p><b>Layers: </b>Toggle the layers on and off using the legend on the right side of the map.
-          View the ways in which secondary layers overlay onto primary layers. Click the About section above for more information on the layer types. </p>
-        <p><b>Popups: </b>Click on a given geography for the Land Use, Poverty Rate, or Flood Zone layers for specific information on that area.
-          The liquefaction zone layer does not display significant variance in risk and therefore does not have more specific information upon click.</p>
-      </div>
-      <button class="dropdown-btn">Key Terms
-        <i class="fa fa-caret-down"></i>
-      </button>
-      <div class="dropdown-container">
-        <p><b>Land Uses </b>show the allowed uses for various sections of land within a city.
-          Zoning ordinances are issued by the City to regulate and determine these uses and/or allowed development.
-          These are in conformance with the City of Long Beach’s General Plan.  </p>
-        <p><b>Poverty Rate </b> shows the percentage of families whose total income is at or below their respective threshold;
-          thresholds are defined depending on the size and composition of the family.
-          These rates are represented at the Census Tract level on this map. </p>
-          <p><b>Liquefaction </b>takes place when loosely packed, water-logged sediments at or near the ground surface lose their strength in response to strong ground shaking.
-            Liquefaction occurring beneath buildings and other structures can cause major damage during earthquakes (USGS). </p>
-            <p><b>Flood Zones </b>show parts of the City that lie within a Special Flood Hazard Area (SFHA), defined by FEMA.  A SFHA is also known as the 100-year floodplain.
-              The SFHA is not a flood event that happens once in a hundred years, rather it is a flood event that has a 1-percent chance of occurring every year (City of Long Beach Data). </p>
-      </div>
-      <button class="dropdown-btn">Data Sources
-        <i class="fa fa-caret-down"></i>
-      </button>
-      <div class="dropdown-container">
-        <p>Click on one of the layer names below to be taken to the corresponding source webpage.</p>
-        <a href="https://datalb.longbeach.gov/datasets/429114cf9e314736b41703c117a4614e_0?page=13">Land Use</a>
-        <a href="https://datalb.longbeach.gov/datasets/0cb553417e514b5d87d391ec3b751e2f_0">Poverty Rate (2016)</a>
-        <a href="https://geohub.lacity.org/datasets/4842ad85584c430481246852280257c2_9">Liquefaction Zone</a>
-        <a href="https://datalb.longbeach.gov/datasets/3aff2dbcf9bc43ba97a3bf5aa90d82ae_7">Flood Zones</a>
-      </div>
-      <button class="dropdown-btn">City Resources
-        <i class="fa fa-caret-down"></i>
-      </button>
-      <div class="dropdown-container">
-        <p>Click on one of the resources below to be taken to the corresponding City of Long Beach page.</p>
-        <a href="http://www.longbeach.gov/disasterpreparedness/">Bureau of Disaster Preparedness</a>
-        <a href="http://www.longbeach.gov/globalassets/disaster-preparedness/media-library/documents/home/longbeach-hazard-mitigation-plan">Hazard Mitigation Plan (2017)</a>
-        <a href="http://www.longbeach.gov/lbds/planning/advance/general-plan/">General City Plan</a>
-      </div>
-</div>
-    <!--<div id='sidebar'><p class = 'title'>Hazard and Vulnerability Map</p>
+        </div>
+    </nav>
+    <div class='master-container'>
+        <!-- adapted code from https://www.w3schools.com/howto/howto_js_dropdown_sidenav.asp -->
+        <div class="sidenav">
+            <p class="title-btn">
+                City of Long Beach, CA
+            </p>
+            <button class="dropdown-btn">How To Use This Map
+                <i class="fa fa-caret-down"></i>
+            </button>
+            <div class="dropdown-container">
+                <p><b>Layers: </b>Toggle the layers on and off using the legend on the right side of the map.
+                    View the ways in which secondary layers overlay onto primary layers. Click the About section above for more information on the layer types. </p>
+                <p><b>Popups: </b>Click on a given geography for the Land Use, Poverty Rate, or Flood Zone layers for specific information on that area.
+                    The liquefaction zone layer does not display significant variance in risk and therefore does not have more specific information upon click.</p>
+            </div>
+            <button class="dropdown-btn">Key Terms
+                <i class="fa fa-caret-down"></i>
+            </button>
+            <div class="dropdown-container">
+                <p><b>Land Uses </b>show the allowed uses for various sections of land within a city.
+                    Zoning ordinances are issued by the City to regulate and determine these uses and/or allowed development.
+                    These are in conformance with the City of Long Beach’s General Plan. </p>
+                <p><b>Poverty Rate </b> shows the percentage of families whose total income is at or below their respective threshold;
+                    thresholds are defined depending on the size and composition of the family.
+                    These rates are represented at the Census Tract level on this map. </p>
+                <p><b>Liquefaction </b>takes place when loosely packed, water-logged sediments at or near the ground surface lose their strength in response to strong ground shaking.
+                    Liquefaction occurring beneath buildings and other structures can cause major damage during earthquakes (USGS). </p>
+                <p><b>Flood Zones </b>show parts of the City that lie within a Special Flood Hazard Area (SFHA), defined by FEMA. A SFHA is also known as the 100-year floodplain.
+                    The SFHA is not a flood event that happens once in a hundred years, rather it is a flood event that has a 1-percent chance of occurring every year (City of Long Beach Data). </p>
+            </div>
+            <button class="dropdown-btn">Data Sources
+                <i class="fa fa-caret-down"></i>
+            </button>
+            <div class="dropdown-container">
+                <p>Click on one of the layer names below to be taken to the corresponding source webpage.</p>
+                <a href="https://datalb.longbeach.gov/datasets/429114cf9e314736b41703c117a4614e_0?page=13">Land Use</a>
+                <a href="https://datalb.longbeach.gov/datasets/0cb553417e514b5d87d391ec3b751e2f_0">Poverty Rate (2016)</a>
+                <a href="https://geohub.lacity.org/datasets/4842ad85584c430481246852280257c2_9">Liquefaction Zone</a>
+                <a href="https://datalb.longbeach.gov/datasets/3aff2dbcf9bc43ba97a3bf5aa90d82ae_7">Flood Zones</a>
+            </div>
+            <button class="dropdown-btn">City Resources
+                <i class="fa fa-caret-down"></i>
+            </button>
+            <div class="dropdown-container">
+                <p>Click on one of the resources below to be taken to the corresponding City of Long Beach page.</p>
+                <a href="http://www.longbeach.gov/disasterpreparedness/">Bureau of Disaster Preparedness</a>
+                <a href="http://www.longbeach.gov/globalassets/disaster-preparedness/media-library/documents/home/longbeach-hazard-mitigation-plan">Hazard Mitigation Plan (2017)</a>
+                <a href="http://www.longbeach.gov/lbds/planning/advance/general-plan/">General City Plan</a>
+            </div>
+        </div>
+        <!--<div id='sidebar'><p class = 'title'>Hazard and Vulnerability Map</p>
         <p class = 'city-title'>City of Long Beach, CA</p><br></br>
       <p class = 'subtitle'>How to Use This Map</p>
       <p class = 'text'>[Explanation]</p><br></br>
@@ -191,14 +189,13 @@
       <p class = 'subtitle'>Data Sources</p>
       <p class = 'text'>[List of Sources]</p>
     </div>-->
-  <div id='map-container'>MAP</div>
-</div>
-  <script src='https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.js'></script>
-   <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.2.0/mapbox-gl-geocoder.min.js'></script>
-  <script
-    src="https://code.jquery.com/jquery-3.5.1.min.js"
-    integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
-    crossorigin="anonymous"></script> <!--loading jquery-->
-  <script src="js/scripts.js"></script>
+        <div id='map-container'>MAP</div>
+    </div>
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.js'></script>
+    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.2.0/mapbox-gl-geocoder.min.js'></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <!--loading jquery-->
+    <script src="js/scripts.js"></script>
 </body>
+
 </html>
