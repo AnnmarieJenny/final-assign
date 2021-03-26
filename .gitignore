@@ -6,6 +6,8 @@ nano .gitignore
 
 find . -name .DS_Store -print0 | xargs -0 git rm -f --ignore-unmatch
 
+git rm --cached -f *.DS_Store
+
 git status
 
 git add .gitignore
